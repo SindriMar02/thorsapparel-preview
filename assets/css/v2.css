@@ -83,7 +83,7 @@ html.is-loading body { overflow: hidden; }
 .tee { position: relative; flex: none; width: min(29vw, 470px); height: min(62svh, 620px); display: grid; grid-template-rows: 1fr auto; text-decoration: none; color: var(--ink); }
 .tee__name { position: absolute; inset: 8% 0 auto; z-index: 0; text-align: center; white-space: nowrap; font-variation-settings: "wght" var(--w, 300), "wdth" 75; font-size: clamp(48px, 5.8vw, 100px); line-height: .82; letter-spacing: -.035em; text-transform: uppercase; color: var(--chalk-2); pointer-events: none; }
 .tee__img { position: relative; z-index: 1; align-self: center; justify-self: center; width: 86%; height: auto; max-height: 90%; object-fit: contain; filter: drop-shadow(0 24px 28px rgba(18,15,14,.22)); transition: transform var(--d-swap) var(--ease-load); }
-.tee:hover .tee__img { transform: translateY(-10px) rotate(-1.5deg); }
+@media (hover: hover) and (pointer: fine) { .tee:hover .tee__img { transform: translateY(-10px) rotate(-1.5deg); } }
 .tee__meta { position: relative; z-index: 1; display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding-top: 12px; border-top: 1px solid var(--rule-chalk); }
 .tee__meta b { font-variation-settings: "wght" 700, "wdth" 87.5; font-size: 17px; }
 .tee .card__badge { top: 0; left: 0; }
@@ -159,7 +159,7 @@ html.is-loading body { overflow: hidden; }
 .pdp2__thumbs { position: absolute; left: 20px; bottom: 20px; z-index: 2; display: flex; gap: 8px; }
 .pdp2__thumbs button { width: 64px; height: 64px; overflow: hidden; border: 1px solid var(--rule-chalk); background: var(--chalk-2); transition: border-color var(--d-hover); }
 .pdp2__thumbs button img { width: 100%; height: 100%; object-fit: cover; }
-.pdp2__thumbs button:hover { border-color: var(--iron); }
+@media (hover: hover) and (pointer: fine) { .pdp2__thumbs button:hover { border-color: var(--iron); } }
 .zoom { position: fixed; inset: 0; z-index: 85; display: none; place-items: center; background: rgba(18,15,14,.94); cursor: zoom-out; }
 .zoom.is-open { display: grid; }
 .zoom img { max-width: 92vw; max-height: 88vh; width: auto; height: auto; object-fit: contain; }
@@ -167,7 +167,7 @@ html.is-loading body { overflow: hidden; }
 .detail { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 0; background: var(--iron); color: var(--bone); }
 .detail__img { position: relative; aspect-ratio: 1 / 1; overflow: hidden; cursor: zoom-in; display: block; width: 100%; }
 .detail__img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 80% 70%; transform: scale(1.8); transform-origin: 72% 68%; transition: transform 1.1s var(--ease-load); }
-.detail__img:hover img { transform: scale(1.9); }
+@media (hover: hover) and (pointer: fine) { .detail__img:hover img { transform: scale(1.9); } }
 .detail__text { padding: 64px var(--margin) 64px 48px; display: grid; align-content: center; gap: 24px; }
 .flyer { position: fixed; z-index: 120; pointer-events: none; width: 120px; height: auto; filter: drop-shadow(0 12px 14px rgba(0,0,0,.3)); }
 @media (max-width: 900px) {
@@ -219,7 +219,7 @@ html.nav-in .curtain { clip-path: inset(0 0 0 0); }
 .tee__img { -webkit-user-drag: none; user-select: none; }
 .rail__nav { display: flex; gap: 6px; }
 .rail__nav button { width: 48px; height: 48px; display: grid; place-items: center; border: 1.5px solid var(--iron); transition: background-color var(--d-hover), color var(--d-hover), opacity var(--d-hover); }
-.rail__nav button:hover { background: var(--iron); color: var(--bone); }
+@media (hover: hover) and (pointer: fine) { .rail__nav button:hover { background: var(--iron); color: var(--bone); } }
 .rail__nav button:disabled { opacity: .3; pointer-events: none; }
 .rail__nav svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 1.8; fill: none; }
 .rail__progress { display: block !important; }
@@ -250,7 +250,7 @@ html.nav-in .curtain { clip-path: inset(0 0 0 0); }
 
 /* signed prints are buttons (they open the zoom), styled like the old links */
 .signed__item { display: grid; gap: 12px; text-align: left; width: 100%; cursor: zoom-in; }
-.signed__item:hover .signed__img img { transform: scale(1.03); }
+@media (hover: hover) and (pointer: fine) { .signed__item:hover .signed__img img { transform: scale(1.03); } }
 @media (max-width: 900px) { .signed__item { scroll-snap-align: start; } }
 
 /* hero ground = site iron (photo blacks lifted to #120F0E so header, awning and hero are one ink) */
@@ -260,3 +260,20 @@ html.nav-in .curtain { clip-path: inset(0 0 0 0); }
 .pdp2__stage--photo .pdp2__photo { width: min(72%, 600px); aspect-ratio: 1 / 1; object-fit: cover; filter: none; box-shadow: 0 40px 70px -40px rgba(18,15,14,.45); background: var(--chalk-2); }
 @media (max-width: 1023px) { .pdp2__stage--photo .pdp2__photo { width: min(78%, 520px); } }
 @media (max-width: 599px) { .facets__count { display: none; } }
+
+/* iOS / touch: every control reaches Apple's 44 pt minimum (4 Nov iOS pass). Links that sit in text keep their look and get
+   a larger invisible hit area instead (::before), so underlines and spacing do not move. */
+@media (pointer: coarse) {
+  .chip, .facets select { height: 44px; }
+  .chip { min-width: 44px; }
+  .density button { width: 44px; height: 44px; }
+  .quick { width: 44px; height: 44px; }
+  .sizes-row button { height: 44px; min-width: 44px; }
+  .swatch { width: 44px; height: 44px; }
+  .foot__cols li a { display: block; padding: 11px 0; }
+  .ulink::before { content: ""; position: absolute; inset: -7px -6px; }
+  .crumbs a { position: relative; }
+  .crumbs a::before { content: ""; position: absolute; inset: -14px -6px; }
+  .bar__logo { position: relative; }
+  .bar__logo::before { content: ""; position: absolute; inset: -3px -6px; }
+}
