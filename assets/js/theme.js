@@ -320,7 +320,9 @@
         if (!root.classList.contains('is-loading')) tl.play();
         gsap.to('.h2o__word', { yPercent: 18, ease: 'none', scrollTrigger: { trigger: h, start: 'top top', end: 'bottom top', scrub: true } });
         gsap.to(letters, { x: (i) => i * (phone ? 8 : 22), ease: 'none', scrollTrigger: { trigger: h, start: 'top top', end: 'bottom top', scrub: true } });
-        gsap.to('.h2o__man, .h2o__base', { yPercent: -4, scale: 1.04, ease: 'none', scrollTrigger: { trigger: h, start: 'top top', end: 'bottom top', scrub: true } });
+        // Scroll depth uses y (px) only: the intro owns yPercent/scale/opacity. Sharing them made this scrub record the
+        // intro's start state (6% lower, 1.05x) and snap back to it on the first scroll (Sindri 4 Nov: "the cutout jumps").
+        gsap.fromTo('.h2o__man, .h2o__base', { y: 0 }, { y: (i, el) => -0.04 * el.offsetHeight, ease: 'none', immediateRender: false, scrollTrigger: { trigger: h, start: 'top top', end: 'bottom top', scrub: true, invalidateOnRefresh: true } });
         if (fine.matches) {
           const wx = gsap.quickTo('.h2o__word', 'x', { duration: 0.9, ease: 'power3.out' }), mx = gsap.quickTo('.h2o__man', 'x', { duration: 0.9, ease: 'power3.out' }), bx = gsap.quickTo('.h2o__base', 'x', { duration: 0.9, ease: 'power3.out' });
           h.addEventListener('pointermove', (e) => { const d = e.clientX / innerWidth - 0.5; wx(-d * 22); mx(d * 30); bx(d * 30); });
