@@ -277,3 +277,12 @@ html.nav-in .curtain { clip-path: inset(0 0 0 0); }
   .bar__logo { position: relative; }
   .bar__logo::before { content: ""; position: absolute; inset: -3px -6px; }
 }
+
+/* iOS 26 Safari: below the layout viewport (behind the floating toolbar pill) Safari shows whatever sits there. Every overlay
+   carries its own colour 140px further down so that strip never shows the page (studio iOS gotcha, 4 Nov iOS pass). */
+@media (max-width: 900px) {
+  .menu { box-shadow: 0 140px 0 0 var(--iron); }
+  .menu.is-open { clip-path: inset(0 0 -140px 0); }
+  .drawer { box-shadow: 0 140px 0 0 var(--chalk); }
+  .scrim::after, .zoom::after, .vdialog::after { content: ""; position: absolute; left: 0; right: 0; top: 100%; height: 140px; background: inherit; pointer-events: none; }
+}
