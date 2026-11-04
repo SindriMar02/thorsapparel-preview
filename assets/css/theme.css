@@ -74,7 +74,9 @@ ol, ul { padding: 0; list-style: none; }
 @media (hover: hover) and (pointer: fine) { .ulink:hover::after { transform: scaleX(.35); } }
 
 /* ---------- mobile chrome standard: constant bar + awning ---------- */
-.awning { position: sticky; top: -100px; height: 106px; margin-bottom: -106px; background: var(--iron); z-index: 39; pointer-events: none; }
+/* Awning (mobile chrome standard): solid ink behind the iOS status strip while scrolling. Shifted up so at rest it ends where the
+   bar ends: on light pages the old 106px block showed as a 49px dark band under the header (4 Nov iOS pass). Net flow height 0. */
+.awning { position: sticky; top: -100px; height: 106px; margin-top: calc(var(--bar-h) - 106px); margin-bottom: calc(-1 * var(--bar-h)); background: var(--iron); z-index: 39; pointer-events: none; }
 @media (min-width: 768px) { .awning { display: none; } }
 .bar { position: fixed; inset: 0 0 auto 0; z-index: 40; color: var(--bone);
   background-color: rgba(18,15,14,.88); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-bottom: 1px solid var(--rule-iron); }
