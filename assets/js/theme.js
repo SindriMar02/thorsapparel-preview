@@ -148,7 +148,7 @@
   /* ---------- product page ---------- */
   const pdp = $('[data-pdp]');
   if (pdp) {
-    let size = null;
+    let size = $('.sizegrid button[aria-pressed="true"]', pdp)?.textContent || null;
     const grid = $('.sizegrid', pdp), main = $('#add-main'), bar = $('.buybar'), barSize = $('#bar-size');
     grid?.addEventListener('click', (e) => {
       const b = e.target.closest('button'); if (!b) return;
@@ -159,7 +159,7 @@
       if (!size) { say('Pick a size first'); grid.querySelector('button').focus({ preventScroll: true }); const y = grid.getBoundingClientRect().top + scrollY - innerHeight / 2; lenis ? lenis.scrollTo(y) : scrollTo({ top: y, behavior: reduce.matches ? 'auto' : 'smooth' }); return; }
       const d = pdp.dataset; btn.classList.add('is-added'); const old = btn.textContent; btn.textContent = 'Added';
       setTimeout(() => { btn.classList.remove('is-added'); btn.textContent = old; }, 1200);
-      add({ h: d.h, t: d.t, p: +d.p, img: d.img, v: `Size ${size} · ${d.color}` }, btn, e, $('.pdp2__cut'));
+      add({ h: d.h, t: d.t, p: +d.p, img: d.img, v: [size === 'One size' ? size : 'Size ' + size, d.color].filter(Boolean).join(' · ') }, btn, e, $('.pdp2__cut'));
     };
     main?.addEventListener('click', (e) => doAdd(main, e));
     $('#add-bar')?.addEventListener('click', (e) => doAdd($('#add-bar'), e));
@@ -262,7 +262,7 @@
   /* ---------- page transitions ---------- */
   // Shared element: the tee you clicked becomes the product hero (cross-document View Transitions).
   document.addEventListener('click', (e) => {
-    const a = e.target.closest('a[href$="product.html"]'); if (!a) return;
+    const a = e.target.closest('a[href$="product.html"], a[href^="p-"]'); if (!a) return;
     const img = $('.tee__img, .card__cut', a.closest('.tee, .card') || a);
     $$('[style*="view-transition-name"]').forEach((el) => { if (el !== img && !el.classList.contains('pdp2__cut')) el.style.viewTransitionName = ''; });
     if (img && crossDocVT) img.style.viewTransitionName = 'tee';

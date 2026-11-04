@@ -255,3 +255,8 @@ html.nav-in .curtain { clip-path: inset(0 0 0 0); }
 
 /* hero ground = site iron (photo blacks lifted to #120F0E so header, awning and hero are one ink) */
 .h2o { background: var(--iron); }
+
+/* v2.3 product pages without a cutout: the store's own square photo, framed on the chalk stage */
+.pdp2__stage--photo .pdp2__photo { width: min(72%, 600px); aspect-ratio: 1 / 1; object-fit: cover; filter: none; box-shadow: 0 40px 70px -40px rgba(18,15,14,.45); background: var(--chalk-2); }
+@media (max-width: 1023px) { .pdp2__stage--photo .pdp2__photo { width: min(78%, 520px); } }
+@media (max-width: 599px) { .facets__count { display: none; } }
