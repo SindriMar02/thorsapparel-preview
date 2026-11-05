@@ -483,3 +483,60 @@ html:not([data-input="pointer"]) .panel:focus-visible::after { opacity: 1; }
   .panel__body b { font-size: clamp(34px, 10.5vw, 56px); }
 }
 @media (pointer: coarse) { .signup label.consent { min-height: 44px; align-items: center; } }
+
+/* ===== v2.8 (Sindri 5 Nov: "animate a line from the tshirt to the tshirt that has the text with a small smart text and price
+   and button", "one marquee in an elegant nice fashion ... only a marquee that makes sense", "missing something that brings it
+   away from the generic template look") ===== */
+/* hero callout: dot on the print, a hairline drawn to the card */
+.callout { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
+.callout__line { position: absolute; left: 0; top: 0; width: 100%; height: 100%; overflow: visible; }
+.callout__line path { fill: none; stroke: rgba(242,239,234,.72); stroke-width: 1.25; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1 1; stroke-dashoffset: 0; }
+html.js-motion .callout__line path { stroke-dashoffset: 1; }
+.callout__dot { position: absolute; left: 0; top: 0; width: 0; height: 0; }
+.callout__dot i { position: absolute; left: -6px; top: -6px; width: 12px; height: 12px; border-radius: 50%; background: var(--plate); box-shadow: 0 0 0 5px rgba(211,39,28,.28); }
+html.js-motion .callout__dot i { transform: scale(0); opacity: 0; }
+.callout__card { pointer-events: auto; position: absolute; right: var(--margin); bottom: 48px; display: flex; align-items: center; gap: 14px; max-width: 360px; padding: 10px; background: rgba(18,15,14,.84); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border: 1px solid rgba(242,239,234,.18); color: var(--bone); text-decoration: none; transition: border-color var(--d-hover) var(--ease-sheet); }
+html.js-motion .callout__card { opacity: 0; }
+.callout__card img { width: 64px; height: 64px; flex: none; object-fit: cover; }
+.callout__text { display: grid; gap: 3px; min-width: 0; }
+.callout__text .mono { font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: rgba(242,239,234,.66); }
+.callout__text b { font-variation-settings: "wght" 700, "wdth" 87.5; font-size: 15px; line-height: 1.15; }
+.callout__price { font-family: var(--mono); font-size: 12px; color: rgba(242,239,234,.8); }
+.callout__btn { flex: none; align-self: stretch; display: inline-flex; align-items: center; gap: 8px; padding: 0 14px; background: var(--bone); color: var(--iron); font-family: var(--mono); font-weight: 700; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
+.callout__btn .i-arrow { width: 15px; height: 15px; }
+@media (hover: hover) and (pointer: fine) { .callout__card:hover { border-color: rgba(242,239,234,.6); } .callout__card:hover .i-arrow { transform: translateX(4px); } }
+.callout__card:focus-visible { outline: 2px solid var(--plate); outline-offset: 3px; }
+@media (max-width: 900px) {
+  .callout__card { right: 12px; bottom: 12px; left: auto; max-width: calc(100% - 24px); gap: 10px; padding: 8px; }
+  .callout__card img { width: 48px; height: 48px; }
+  .callout__text b { font-size: 13.5px; }
+  .callout__text .mono { font-size: 9.5px; }
+  .callout__btn { padding: 0 10px; min-height: 44px; }
+}
+/* the oath: one slow marquee of the words around the hammer on the Forged By Thunder back print, over the mountain's contours */
+.oath { position: relative; isolation: isolate; overflow: hidden; background: var(--iron); color: var(--bone); padding: clamp(30px, 4.4vw, 64px) 0 clamp(22px, 2.8vw, 36px); }
+.oath::before { content: ""; position: absolute; inset: 0; z-index: -1; background: url(../img/contours-bone.svg) center / cover no-repeat; opacity: .1; pointer-events: none; }
+.marq--oath { background: none; border: 0; padding: 0; --marq-dur: 90s; -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent); }
+.marq--oath .marq__group { align-items: center; }
+.marq--oath .marq__track span { padding: 0 .1em; font-variation-settings: "wght" 220, "wdth" 75; font-size: clamp(48px, 7.6vw, 136px); line-height: 1.02; letter-spacing: -.015em; }
+.marq--oath .marq__track span b { font-weight: normal; font-variation-settings: "wght" 800, "wdth" 75; }
+.marq--oath .marq__group > i { flex: none; display: block; width: clamp(10px, 1vw, 16px); height: clamp(10px, 1vw, 16px); margin: 0 clamp(22px, 3vw, 48px); background: var(--plate); transform: rotate(45deg); }
+.oath__src { display: flex; justify-content: flex-end; align-items: center; gap: 10px; margin: clamp(16px, 2vw, 26px) var(--margin) 0; color: rgba(242,239,234,.66); text-decoration: none; font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase; }
+.oath__src .i-arrow { width: 14px; height: 14px; }
+@media (hover: hover) and (pointer: fine) { .oath__src:hover { color: var(--bone); } .oath__src:hover .i-arrow { transform: translateX(4px); } }
+@media (max-width: 767px) { .oath__src { justify-content: flex-start; } }
+/* the mountain's contour lines, faint, behind the record */
+.topo { position: relative; isolation: isolate; }
+.topo::before { content: ""; position: absolute; inset: 0; z-index: -1; background: url(../img/contours-iron.svg) center / cover no-repeat; opacity: .07; pointer-events: none; }
+/* callout placement v2: desktop beside his head (the empty top right), phones a slim tag on the photo's lower right */
+.callout__card { top: calc(var(--bar-h) + var(--strip-h) + 64px); bottom: auto; width: 300px; max-width: none; align-items: stretch; padding: 10px 12px 10px 10px; }
+.callout__card img { width: 72px; height: 72px; align-self: center; }
+.callout__text { flex: 1; align-content: center; }
+.callout__row { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 4px; }
+.callout__btn { align-self: auto; min-height: 30px; padding: 0 10px; font-size: 11px; }
+@media (pointer: coarse) { .callout__btn { min-height: 44px; } }
+@media (max-width: 900px) {
+  .callout__card { top: auto; bottom: 10px; right: 10px; width: min(300px, calc(100% - 20px)); padding: 8px 10px 8px 8px; }
+  .callout__card img { width: 52px; height: 52px; }
+  .h2o__copy { margin-top: 18px; }
+}

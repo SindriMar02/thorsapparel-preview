@@ -319,6 +319,33 @@
     })(t0);
   }
 
+  /* ---------- hero callout: a line from the print on his top to that tee (Sindri 5 Nov) ----------
+     The dot sits on the fabric just right of the print (60% across, 42.5% down the photo, measured on hero-power-base.jpg) and follows the photo
+     through the intro and the pointer depth; the path goes from the dot to the card. Layout only runs while something
+     moves (intro, pointer, resize), then stops. Transform owners: the loop owns .callout__dot (translate), GSAP owns its <i>
+     (scale) and the card (y). */
+  const co = $('[data-callout]');
+  let coUntil = 0, coRaf = 0;
+  const coLayout = () => {
+    const stg = co.parentElement, man = $('.h2o__man'), card = $('.callout__card', co), dot = $('.callout__dot', co), svg = $('svg', co), path = $('path', svg);
+    const S = stg.getBoundingClientRect(), M = man.getBoundingClientRect(), K = card.getBoundingClientRect();
+    if (!S.width || !M.width) return;
+    const ax = M.left - S.left + M.width * 0.6, ay = M.top - S.top + M.height * 0.425;
+    dot.style.transform = `translate(${ax.toFixed(1)}px, ${ay.toFixed(1)}px)`;
+    svg.setAttribute('viewBox', `0 0 ${S.width.toFixed(0)} ${S.height.toFixed(0)}`);
+    const kl = K.left - S.left, kt = K.top - S.top, kr = kl + K.width, km = kt + K.height / 2;
+    let d;
+    if (kl > ax + 40) { const ex = Math.max(ax + 8, kl - Math.min(150, (kl - ax) * 0.45)); d = `M${ax.toFixed(1)} ${ay.toFixed(1)}L${ex.toFixed(1)} ${km.toFixed(1)}L${kl.toFixed(1)} ${km.toFixed(1)}`; }
+    else { // card above the dot (desktop): end on its bottom edge; card below (phones): end on its top edge
+      const tx = Math.min(Math.max(ax, kl + 28), kr - 28), ty = kt + K.height < ay ? kt + K.height : kt;
+      d = `M${ax.toFixed(1)} ${ay.toFixed(1)}L${tx.toFixed(1)} ${ty.toFixed(1)}`;
+    }
+    path.setAttribute('d', d);
+  };
+  const coTick = (t) => { coLayout(); coRaf = t < coUntil ? requestAnimationFrame(coTick) : 0; };
+  const coKick = (ms) => { if (!co) return; coUntil = Math.max(coUntil, performance.now() + ms); if (!coRaf) coRaf = requestAnimationFrame(coTick); };
+  if (co) { coKick(600); addEventListener('resize', () => coKick(400)); addEventListener('load', () => coKick(400)); document.fonts?.ready.then(() => coKick(300)); }
+
   /* ---------- motion ---------- */
   let ctx = null, tickers = [], heroPtr = null;
   function setupMotion() {
@@ -338,6 +365,12 @@
         tl.fromTo(letters, { yPercent: 105, y: 0, '--w': 200 }, { yPercent: 0, y: 0, '--w': 800, duration: 1.1, stagger: 0.09 }, 0)
           .fromTo('.h2o__man, .h2o__base', { opacity: 0, yPercent: 6, scale: 1.05 }, { opacity: 1, yPercent: 0, scale: 1, duration: 1.3 }, 0.25)
           .fromTo('.h2o [data-fade]', { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.6, stagger: 0.07, ease: 'power3.out' }, 0.75);
+        if (co) {
+          tl.call(() => coKick(3200), null, 0)
+            .fromTo('.callout__dot i', { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: 'back.out(2.2)' }, 1.45)
+            .fromTo('.callout__line path', { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 1.1, ease: 'power2.inOut' }, 1.7)
+            .fromTo('.callout__card', { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', clearProps: 'transform' }, 2.45);
+        }
         window.__heroPlay = () => tl.play();
         if (!root.classList.contains('is-loading')) tl.play();
         // Pointer depth (mouse only; never touch, never reduced motion): ÞÓR drifts against the pointer, Hafþór (cutout +
@@ -351,8 +384,8 @@
           heroPtr = new AbortController();
           h.addEventListener('pointermove', (e) => { if (e.pointerType !== 'mouse') return; const r = h.getBoundingClientRect();
             const dx = clamp((e.clientX - r.left) / r.width - 0.5), dy = clamp((e.clientY - r.top) / r.height - 0.5);
-            wx(-dx * 22); wy(-dy * 10); mx(dx * 30); }, { signal: heroPtr.signal, passive: true });
-          h.addEventListener('pointerleave', () => { wx(0); wy(0); mx(0); }, { signal: heroPtr.signal });
+            wx(-dx * 22); wy(-dy * 10); mx(dx * 30); coKick(1300); }, { signal: heroPtr.signal, passive: true });
+          h.addEventListener('pointerleave', () => { wx(0); wy(0); mx(0); coKick(1300); }, { signal: heroPtr.signal });
         }
       } else if ($('[data-fade]')) gsap.set('[data-fade]', { opacity: 1 });
 
