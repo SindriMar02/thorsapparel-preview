@@ -175,22 +175,28 @@
 
   /* ---------- expanding panels (Shop by) ---------- */
   // Columns on desktop (hover, focus or tap widens one), rows on phones (tap opens one; a second tap goes to the collection).
-  // Phones: the row that closes may sit above the tapped one, so the tapped row's top is held still while heights change.
+  // Phones: the row that closes may sit above the tapped one, so the tapped row is held still while heights change. Only the
+  // layout shift is compensated (document-space movement of the row), so a swipe made during the change is never undone.
   const panels = $$('.panel');
-  let holdRaf = 0;
+  let holdRaf = 0, lastPtr = '';
   const openPanel = (p) => {
     if (p.classList.contains('is-open')) return;
-    const stacked = phoneMQ.matches, top0 = p.getBoundingClientRect().top;
+    const stacked = phoneMQ.matches;
+    let prev = p.getBoundingClientRect().top + scrollY;
     panels.forEach((x) => { x.classList.toggle('is-open', x === p); x.setAttribute('aria-expanded', String(x === p)); });
     if (!stacked) return;
     cancelAnimationFrame(holdRaf); const t0 = performance.now();
-    const hold = (now) => { const d = p.getBoundingClientRect().top - top0; if (Math.abs(d) > 0.5) scrollBy(0, d); if (now - t0 < 760) holdRaf = requestAnimationFrame(hold); };
+    const hold = (now) => { const doc = p.getBoundingClientRect().top + scrollY, shift = doc - prev; prev = doc; if (Math.abs(shift) > 0.5) { scrollBy(0, shift); prev = p.getBoundingClientRect().top + scrollY; } if (now - t0 < 760) holdRaf = requestAnimationFrame(hold); };
     holdRaf = requestAnimationFrame(hold);
   };
   panels.forEach((p) => {
+    p.addEventListener('pointerdown', (e) => { lastPtr = e.pointerType; });
     p.addEventListener('pointerenter', () => { if (fine.matches) openPanel(p); });
     p.addEventListener('focus', () => { if (p.matches(':focus-visible')) openPanel(p); });
-    p.addEventListener('click', (e) => { if (!p.classList.contains('is-open')) { e.preventDefault(); openPanel(p); } });
+    // only a touch/pen tap on a closed row opens it first; mouse (already opened by hover), keyboard and assistive-technology
+    // activation (click with detail 0) always follow the link
+    p.addEventListener('click', (e) => { const tap = e.detail > 0 && (lastPtr === 'touch' || lastPtr === 'pen'); lastPtr = '';
+      if (tap && !p.classList.contains('is-open')) { e.preventDefault(); openPanel(p); } });
   });
 
   /* ---------- drop rail: native scroller + drag + buttons + progress (no scroll-jacking) ---------- */
