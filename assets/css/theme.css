@@ -16,7 +16,7 @@
   --ease-load: cubic-bezier(.22,1,.36,1); --ease-sheet: cubic-bezier(.4,0,.2,1); --ease-exit: cubic-bezier(.4,0,1,1);
   --d-press: 120ms; --d-hover: 200ms; --d-ui: 300ms; --d-swap: 500ms; --d-sheet-in: 600ms; --d-sheet-out: 400ms;
   --margin: clamp(16px, 3.2vw, 48px); --gutter: 24px; --max: 1680px;
-  --bar-h: 64px; --strip-h: 30px;
+  --bar-h: 64px; --strip-h: 0px; /* announcement strip removed 5 Nov (Sindri: "makes it look like every other bland website"); facts live in the service band, PDP and cart */
   --sec: 144px;
   --grot: "Martian Grotesk", "Arial Narrow", Arial, sans-serif;
   --mono: "Martian Mono", ui-monospace, Menlo, monospace;
