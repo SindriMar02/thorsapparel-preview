@@ -540,3 +540,22 @@ html.js-motion .callout__card { opacity: 0; }
   .callout__card img { width: 52px; height: 52px; }
   .h2o__copy { margin-top: 18px; }
 }
+/* callout placement v3 (Sindri 5 Nov: "this is just covering his face on desktop"): the card sits low on the right, at his
+   waist below his hands, so it can never reach his head at any desktop width; the line drops from the print to its top edge */
+@media (min-width: 901px) { .callout__card { top: auto; bottom: 48px; } }
+/* callout tag v4 (Sindri 5 Nov: "make the product tag a bit more minimalistic"): no panel, no border; thumbnail, a small label,
+   name, price and an outlined Shop, set straight on the dark photo; the line lands on the thumbnail */
+.callout__card { width: auto; max-width: 290px; padding: 0; gap: 12px; align-items: center; background: none; border: 0; -webkit-backdrop-filter: none; backdrop-filter: none; text-shadow: 0 1px 14px rgba(0,0,0,.65); }
+.callout__card img { width: 52px; height: 52px; background: var(--chalk-2); box-shadow: 0 10px 24px -12px rgba(0,0,0,.8); }
+.callout__text { gap: 2px; }
+.callout__text .mono { font-size: 9.5px; color: rgba(242,239,234,.6); }
+.callout__text b { font-size: 14px; }
+.callout__row { justify-content: flex-start; gap: 12px; margin-top: 3px; }
+.callout__btn { min-height: 26px; padding: 0 9px; background: none; color: var(--bone); border: 1px solid rgba(242,239,234,.45); font-size: 10.5px; text-shadow: none; transition: background-color var(--d-hover) var(--ease-sheet), color var(--d-hover) var(--ease-sheet), border-color var(--d-hover) var(--ease-sheet); }
+@media (hover: hover) and (pointer: fine) { .callout__card:hover { border-color: transparent; } .callout__card:hover .callout__btn { background: var(--bone); color: var(--iron); border-color: var(--bone); } }
+@media (pointer: coarse) { .callout__btn { min-height: 36px; } .callout__card { min-height: 44px; } }
+@media (max-width: 900px) { .callout__card { width: auto; max-width: calc(100% - 20px); padding: 0; } .callout__card img { width: 44px; height: 44px; } .callout__text b { font-size: 13px; } }
+/* oath source line v2 (Sindri 5 Nov: "this can be smaller and more minimalistic") */
+.oath__src { margin-top: clamp(10px, 1.2vw, 16px); gap: 6px; font-size: 9.5px; letter-spacing: .14em; color: rgba(242,239,234,.42); }
+.oath__src .i-arrow { width: 11px; height: 11px; }
+@media (pointer: coarse) { .oath__src { min-height: 44px; } }
