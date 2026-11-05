@@ -598,3 +598,21 @@ html.js-motion .callout__card { opacity: 0; }
 .marq--oath .marq__track span b { font-size: clamp(32px, 4vw, 66px); line-height: .9; letter-spacing: -.012em; }
 .marq--oath .marq__group > i { width: auto; height: auto; background: none; transform: none; margin: 0 clamp(22px, 2.8vw, 46px); color: var(--plate); display: flex; align-self: center; }
 .marq--oath .marq__group > i svg { width: clamp(11px, .95vw, 15px); height: auto; fill: currentColor; display: block; }
+
+/* ===== v3.0 (Sindri 5 Nov: "mobile tapping on categories and smoothness is broken and moves the screen weirdly ... super user
+   friendly"): up to 900 px Shop by is a tile grid. Every tile shows its photo and name at once and one tap goes to the
+   collection; nothing changes height, so the page never moves. Desktop keeps the hover-expanding columns. ===== */
+@media (max-width: 900px) {
+  .panels { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px; height: auto; overflow-anchor: auto; }
+  .panel, .panel.is-open { display: grid; grid-template-rows: minmax(0, 1fr) auto; height: auto; aspect-ratio: 4 / 5; transition: none; container-type: inline-size; -webkit-tap-highlight-color: transparent; }
+  .panel img, .panel.is-open img { position: relative; inset: auto; height: 100%; opacity: 1; transform: none; transition: transform .45s var(--ease-load), filter .45s var(--ease-load); }
+  .panel__label, .panel__count, .panel.is-open .panel__count { display: none; }
+  .panel__body, .panel.is-open .panel__body { opacity: 1; transform: none; transition: none; flex-direction: column; align-items: flex-start; flex-wrap: nowrap; gap: 5px; padding: 11px 13px 13px; position: relative; }
+  .panel__body b { font-size: clamp(20px, 6vw, 34px); font-size: min(38px, calc((100cqi - 30px) / 6.6)); }
+  .panel__go { font-size: 11px; }
+  .panel__go .i-arrow { width: 13px; height: 13px; transition: transform .3s var(--ease-load); }
+  /* press feedback: the photo settles in and the arrow nudges while the finger is down */
+  .panel:active img { transform: scale(1.035); filter: brightness(.92); }
+  .panel:active .panel__go .i-arrow { transform: translateX(3px); }
+}
+@media (min-width: 600px) and (max-width: 900px) { .panels { grid-template-columns: repeat(3, minmax(0, 1fr)); } }

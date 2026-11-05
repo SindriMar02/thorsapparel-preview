@@ -68,6 +68,9 @@
     if (e.target.closest('[data-close]') || e.target === scrim || e.target.classList.contains('vdialog') || e.target.classList.contains('zoom')) closeOverlay();
   });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closeOverlay(); closeQuick(); } });
+  // A link inside an open overlay (the phone menu's categories): release the page lock before leaving, under the full-screen menu,
+  // so Safari stores the real scroll position and Back returns to where you were, not to the top (iOS pass 5 Nov).
+  document.addEventListener('click', (e) => { const a = e.target.closest('a[href]'); if (a && openEl && openEl.contains(a) && !a.target && document.body.style.position === 'fixed') unlock(); }, true);
   function loadVideo(id) {
     const f = $('#video .vdialog__frame'); if (!f || !id) return;
     f.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0" title="510kg / 1,124lb WORLD RECORD Deadlift, Hafthor Bjornsson on YouTube" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
@@ -174,33 +177,21 @@
   document.addEventListener('click', (e) => { const b = e.target.closest('.acc__btn'); if (b) b.setAttribute('aria-expanded', String(b.getAttribute('aria-expanded') !== 'true')); });
 
   /* ---------- expanding panels (Shop by) ---------- */
-  // Columns on desktop (hover, focus or tap widens one), rows on phones (tap opens one; a second tap goes to the collection).
-  // Phones: the row that closes may sit above the tapped one, so the tapped row is held still while heights change. Only the
-  // layout shift is compensated (document-space movement of the row), so a swipe made during the change is never undone.
+  // From 901 px: columns (hover, focus or a tap widens one; a tap on the open one goes to the collection). Up to 900 px Shop by is
+  // a tile grid (v2.css v3.0, Sindri 5 Nov: "mobile tapping on categories ... moves the screen weirdly"): nothing changes size and
+  // one tap goes, so the page never moves under the finger. The old phone rows opened on a first tap and scrolled the page for
+  // 760 ms to hold the tapped row still, which fought the finger and the momentum on iOS.
   const panels = $$('.panel');
-  // The correction runs in a ResizeObserver (after layout, before paint, so WebKit shows no one-frame dip: the Codex iOS pass
-  // measured -10.6 px at 300 ms with rAF alone) and in rAF as a fallback; each pass only corrects what is left.
-  let holdRaf = 0, holdRO = null, lastPtr = '';
-  const openPanel = (p) => {
-    if (p.classList.contains('is-open')) return;
-    const stacked = phoneMQ.matches;
-    let prev = p.getBoundingClientRect().top + scrollY;
-    panels.forEach((x) => { x.classList.toggle('is-open', x === p); x.setAttribute('aria-expanded', String(x === p)); });
-    if (!stacked) return;
-    cancelAnimationFrame(holdRaf); holdRO?.disconnect(); const t0 = performance.now();
-    const fix = () => { const doc = p.getBoundingClientRect().top + scrollY, shift = doc - prev; prev = doc; if (Math.abs(shift) > 0.5) { scrollBy(0, shift); prev = p.getBoundingClientRect().top + scrollY; } };
-    if (window.ResizeObserver) { holdRO = new ResizeObserver(fix); panels.forEach((x) => holdRO.observe(x)); }
-    const hold = (now) => { fix(); if (now - t0 < 760) holdRaf = requestAnimationFrame(hold); else { holdRO?.disconnect(); holdRO = null; } };
-    holdRaf = requestAnimationFrame(hold);
-  };
+  let lastPtr = '';
+  const openPanel = (p) => { if (p.classList.contains('is-open')) return; panels.forEach((x) => { x.classList.toggle('is-open', x === p); x.setAttribute('aria-expanded', String(x === p)); }); };
   panels.forEach((p) => {
     p.addEventListener('pointerdown', (e) => { lastPtr = e.pointerType; });
-    p.addEventListener('pointerenter', () => { if (fine.matches) openPanel(p); });
-    p.addEventListener('focus', () => { if (p.matches(':focus-visible')) openPanel(p); });
-    // only a touch/pen tap on a closed row opens it first; mouse (already opened by hover), keyboard and assistive-technology
-    // activation (click with detail 0) always follow the link
+    p.addEventListener('touchstart', () => {}, { passive: true }); // lets iOS Safari paint :active (the press feedback on a tile)
+    p.addEventListener('pointerenter', () => { if (fine.matches && !phoneMQ.matches) openPanel(p); });
+    p.addEventListener('focus', () => { if (!phoneMQ.matches && p.matches(':focus-visible')) openPanel(p); });
+    // a touch/pen tap on a closed column opens it first; tiles (phones), mouse, keyboard and assistive tech (detail 0) follow the link
     p.addEventListener('click', (e) => { const tap = e.detail > 0 && (lastPtr === 'touch' || lastPtr === 'pen'); lastPtr = '';
-      if (tap && !p.classList.contains('is-open')) { e.preventDefault(); openPanel(p); } });
+      if (tap && !phoneMQ.matches && !p.classList.contains('is-open')) { e.preventDefault(); openPanel(p); } });
   });
 
   /* ---------- drop rail: native scroller + drag + buttons + progress (no scroll-jacking) ---------- */
@@ -231,7 +222,7 @@
       const retime = () => { const w = g.getBoundingClientRect().width; if (!w) return; const a = anim(), p = a ? a.effect.getComputedTiming().progress || 0 : 0;
         const sec = w / (+m.dataset.speed * (innerWidth < 768 ? 0.75 : 1)); m.style.setProperty('--marq-dur', sec.toFixed(2) + 's');
         getComputedStyle(track).animationDuration; const b = anim(); if (b) b.currentTime = p * sec * 1000; };
-      retime(); if (document.fonts) document.fonts.ready.then(retime); let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(retime, 150); }, { passive: true }); }
+      retime(); if (document.fonts) document.fonts.ready.then(retime); let rt, mw = innerWidth; addEventListener('resize', () => { if (innerWidth === mw) return; mw = innerWidth; clearTimeout(rt); rt = setTimeout(retime, 150); }, { passive: true }); }
     const seek = (dist) => { const a = anim(); if (!a) return; const len = track.getBoundingClientRect().width / 2; const per = Number(a.effect.getComputedTiming().duration); if (!len || !per) return;
       const rev = m.dataset.dir === 'right'; const t = Number(a.currentTime || 0) + (dist / len) * per * (rev ? 1 : -1); a.currentTime = ((t % per) + per) % per; };
     let d = null, dragged = false;
@@ -294,7 +285,7 @@
     $$('[style*="view-transition-name"]').forEach((el) => { if (el !== img && !el.classList.contains('pdp2__cut')) el.style.viewTransitionName = ''; });
     if (img && crossDocVT) img.style.viewTransitionName = 'tee';
   }, true);
-  addEventListener('pageshow', () => { $$('.tee__img, .card__cut').forEach((el) => (el.style.viewTransitionName = '')); $('.curtain')?.classList.remove('is-cover'); });
+  addEventListener('pageshow', (e) => { $$('.tee__img, .card__cut').forEach((el) => (el.style.viewTransitionName = '')); $('.curtain')?.classList.remove('is-cover'); if (e.persisted) closeOverlay(false); });
   const quiet = (vt) => { if (!vt) return; ['ready', 'finished', 'updateCallbackDone'].forEach((k) => vt[k] && vt[k].catch(() => {})); };
   addEventListener('pagereveal', (e) => quiet(e.viewTransition));
   addEventListener('pageswap', (e) => quiet(e.viewTransition));
@@ -352,7 +343,7 @@
   };
   const coTick = (t) => { coLayout(); coRaf = t < coUntil ? requestAnimationFrame(coTick) : 0; };
   const coKick = (ms) => { if (!co) return; coUntil = Math.max(coUntil, performance.now() + ms); if (!coRaf) coRaf = requestAnimationFrame(coTick); };
-  if (co) { coKick(600); addEventListener('resize', () => coKick(400)); addEventListener('load', () => coKick(400)); document.fonts?.ready.then(() => coKick(300)); }
+  if (co) { coKick(600); let cw = innerWidth; addEventListener('resize', () => { if (innerWidth === cw && co.parentElement.getBoundingClientRect().bottom < 0) return; cw = innerWidth; coKick(400); }, { passive: true }); addEventListener('load', () => coKick(400)); document.fonts?.ready.then(() => coKick(300)); }
 
   /* ---------- motion ---------- */
   let ctx = null, tickers = [], heroPtr = null;
