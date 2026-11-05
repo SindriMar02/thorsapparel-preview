@@ -448,3 +448,31 @@ html.nav-in .curtain { clip-path: inset(0 0 0 0); }
 .flink { display: inline-flex; align-items: center; gap: 10px; }
 .flink svg { width: 18px; height: 18px; }
 .flink svg .fill { fill: currentColor; stroke: none; }
+
+/* ===== v2.7 (Sindri 5 Nov: "get the category columns back as they were before, something hover and expand",
+   "the pointer movement on thor and the wordmark") ===== */
+/* Shop by: the v2.1 columns again (base rules above, "expanding panels"), with real photos only */
+.panel { transition: flex-grow .7s var(--ease-load), background-color .7s var(--ease-load); }
+.panel__body b { white-space: nowrap; }
+.panel__go { display: inline-flex; align-items: center; gap: 10px; white-space: nowrap; }
+.panel__go .i-arrow { width: 16px; height: 16px; }
+@media (hover: hover) and (pointer: fine) { .panel.is-open:hover .panel__go .i-arrow { transform: translateX(4px); } .panel.is-open:hover img { transform: scale(1.025); } }
+/* a product cutout (no photo of it on concrete exists) sits on a chalk mat once its column is open */
+.panel--cut img { object-fit: contain; padding: 10% 12% 24%; filter: drop-shadow(0 22px 24px rgba(18,15,14,.28)); }
+.panel--cut.is-open { background: var(--chalk-2); }
+.panel--cut.is-open .panel__count { color: var(--iron); }
+.panel__count { transition: color .7s var(--ease-load); }
+/* keyboard focus: an inset frame above the photo (an outline would sit under the neighbouring column) */
+.panel::after { content: ""; position: absolute; inset: 0; z-index: 3; border: 2px solid var(--plate); opacity: 0; pointer-events: none; }
+.panel:focus-visible { outline: none; }
+html:not([data-input="pointer"]) .panel:focus-visible::after { opacity: 1; }
+@media (max-width: 900px) {
+  .panel { transition: height .6s var(--ease-load), background-color .6s var(--ease-load); }
+  .panel__body { padding: 14px 18px; }
+  .panel__body b { font-size: clamp(40px, 12vw, 56px); }
+  .panel--cut img { padding: 8% 22% 26%; }
+  .panels { overflow-anchor: none; }
+}
+/* the two editorial photos on the home push in slowly under the mouse (after their one-time reveal clears its transform) */
+.rec__media img, .calm .story__media img { transition: transform 900ms var(--ease-load); }
+@media (hover: hover) and (pointer: fine) { .rec__media:hover img, .calm .story__media:hover img { transform: scale(1.03); } }

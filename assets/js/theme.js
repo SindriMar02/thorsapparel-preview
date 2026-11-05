@@ -174,8 +174,19 @@
   document.addEventListener('click', (e) => { const b = e.target.closest('.acc__btn'); if (b) b.setAttribute('aria-expanded', String(b.getAttribute('aria-expanded') !== 'true')); });
 
   /* ---------- expanding panels (Shop by) ---------- */
+  // Columns on desktop (hover, focus or tap widens one), rows on phones (tap opens one; a second tap goes to the collection).
+  // Phones: the row that closes may sit above the tapped one, so the tapped row's top is held still while heights change.
   const panels = $$('.panel');
-  const openPanel = (p) => panels.forEach((x) => { x.classList.toggle('is-open', x === p); x.setAttribute('aria-expanded', String(x === p)); });
+  let holdRaf = 0;
+  const openPanel = (p) => {
+    if (p.classList.contains('is-open')) return;
+    const stacked = phoneMQ.matches, top0 = p.getBoundingClientRect().top;
+    panels.forEach((x) => { x.classList.toggle('is-open', x === p); x.setAttribute('aria-expanded', String(x === p)); });
+    if (!stacked) return;
+    cancelAnimationFrame(holdRaf); const t0 = performance.now();
+    const hold = (now) => { const d = p.getBoundingClientRect().top - top0; if (Math.abs(d) > 0.5) scrollBy(0, d); if (now - t0 < 760) holdRaf = requestAnimationFrame(hold); };
+    holdRaf = requestAnimationFrame(hold);
+  };
   panels.forEach((p) => {
     p.addEventListener('pointerenter', () => { if (fine.matches) openPanel(p); });
     p.addEventListener('focus', () => { if (p.matches(':focus-visible')) openPanel(p); });
@@ -299,9 +310,10 @@
   }
 
   /* ---------- motion ---------- */
-  let ctx = null, tickers = [];
+  let ctx = null, tickers = [], heroPtr = null;
   function setupMotion() {
     if (ctx) { ctx.revert(); ctx = null; }
+    heroPtr?.abort(); heroPtr = null;
     tickers.forEach((f) => gsap.ticker.remove(f)); tickers = [];
     if (!hasGsap() || reduce.matches) { killLenis(); root.classList.remove('js-motion'); return; }
     gsap.registerPlugin(ScrollTrigger);
@@ -318,6 +330,20 @@
           .fromTo('.h2o [data-fade]', { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.6, stagger: 0.07, ease: 'power3.out' }, 0.75);
         window.__heroPlay = () => tl.play();
         if (!root.classList.contains('is-loading')) tl.play();
+        // Pointer depth (mouse only; never touch, never reduced motion): ÞÓR drifts against the pointer, Hafþór (cutout +
+        // photo together, so they never split) drifts with it. Capped at ±11 px / ±15 px, eased, back to rest on leave.
+        // Channels: x/y only. The intro owns yPercent/scale/opacity on the photo and yPercent on the letters (4 Nov jump fix).
+        if (fine.matches) {
+          const word = $('.h2o__word', h), man = $$('.h2o__man, .h2o__base', h);
+          const wx = gsap.quickTo(word, 'x', { duration: 1.1, ease: 'power3.out' }), wy = gsap.quickTo(word, 'y', { duration: 1.1, ease: 'power3.out' });
+          const mx = gsap.quickTo(man, 'x', { duration: 1.1, ease: 'power3.out' });
+          const clamp = (v) => Math.max(-0.5, Math.min(0.5, v));
+          heroPtr = new AbortController();
+          h.addEventListener('pointermove', (e) => { if (e.pointerType !== 'mouse') return; const r = h.getBoundingClientRect();
+            const dx = clamp((e.clientX - r.left) / r.width - 0.5), dy = clamp((e.clientY - r.top) / r.height - 0.5);
+            wx(-dx * 22); wy(-dy * 10); mx(dx * 30); }, { signal: heroPtr.signal, passive: true });
+          h.addEventListener('pointerleave', () => { wx(0); wy(0); mx(0); }, { signal: heroPtr.signal });
+        }
       } else if ($('[data-fade]')) gsap.set('[data-fade]', { opacity: 1 });
 
       /* weight scrubs */
@@ -336,12 +362,13 @@
         gsap.fromTo(items, { y: +(g.dataset.y || 16), opacity: 0 }, { y: 0, opacity: 1, duration: 0.9, ease: 'power3.out', stagger: +(g.dataset.stagger || 0.05),
           clearProps: 'transform,translate,rotate,scale,opacity', scrollTrigger: { trigger: g, start: 'top 86%', once: true } });
       });
-      // editorial photos: the frame opens upward while the picture settles from 1.12x
+      // editorial photos (home: the record still and the story photo): the frame opens upward once while the picture settles
+      // from 1.08x. clip-path never moves the trigger box; transforms are cleared after so the CSS hover push-in takes over.
       $$('[data-img-reveal]').forEach((f) => {
         const img = $('img', f);
         gsap.timeline({ scrollTrigger: { trigger: f, start: 'top 85%', once: true } })
-          .fromTo(f, { clipPath: 'inset(100% 0% 0% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.25, ease: 'expo.out' })
-          .fromTo(img, { scale: 1.12 }, { scale: 1, duration: 1.7, ease: 'expo.out', clearProps: 'transform,scale' }, 0);
+          .fromTo(f, { clipPath: 'inset(100% 0% 0% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.1, ease: 'expo.out', clearProps: 'clipPath' })
+          .fromTo(img, { scale: 1.08 }, { scale: 1, duration: 1.4, ease: 'expo.out', clearProps: 'transform,scale' }, 0);
       });
       // story timeline: drawn to scale; each milestone appears as the line reaches its year
       const tline = $('.tline');
