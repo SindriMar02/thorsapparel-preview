@@ -345,3 +345,40 @@ html.nav-in .curtain { clip-path: inset(0 0 0 0); }
 .record2 .record__wear { display: flex; align-items: center; gap: 16px; padding: 14px 18px 14px 14px; border: 1px solid var(--rule-iron); color: var(--bone); text-decoration: none; }
 .record2 .record__wear > span { flex: 1; }
 @media (max-width: 767px) { .record2__side { grid-template-columns: 1fr; } .record2__lb { padding-bottom: .3em; } .bbell { height: 120px; } }
+
+/* ===== v2.5 motion + structure pass (Sindri 5 Nov: "more smoother scroll animations and reveals and hover animations",
+   "less generic structures") ===== */
+/* masked word rise for section headings; headroom so uppercase accents (Ó, Á, Ö) never clip */
+.w { display: inline-block; overflow: hidden; vertical-align: top; padding: .16em 0 .06em; margin: -.16em 0 -.06em; }
+.w > span { display: inline-block; will-change: transform; }
+/* story: a milestone line drawn to scale (2016 .. 2025), replaces the stat row */
+.tline { position: relative; margin: 8px 0 0; height: 150px; }
+.tline__list { position: absolute; inset: 0; list-style: none; margin: 0; padding: 0; }
+.tline::before, .tline__fill { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1px; }
+.tline::before { background: var(--rule-iron); }
+.tline__fill { display: block; height: 2px; margin-top: -.5px; background: var(--plate); transform-origin: left; }
+.tline li { position: absolute; left: calc(var(--x) * 100%); top: calc(50% + 16px); transform: translateX(calc(var(--x) * -100%)); display: grid; gap: 4px; text-align: left; white-space: nowrap; }
+.tline li:nth-of-type(3) { text-align: right; }
+.tline li:nth-of-type(2) { top: auto; bottom: calc(50% + 16px); }
+.tline li::before { content: ""; position: absolute; left: 0; width: 9px; height: 9px; border-radius: 50%; background: var(--bone); box-shadow: 0 0 0 4px var(--iron); }
+.tline li:nth-of-type(1)::before, .tline li:nth-of-type(3)::before { top: -21px; }
+.tline li:nth-of-type(2)::before { bottom: -21px; }
+.tline li:nth-of-type(3)::before { left: auto; right: 0; }
+.tline b { font-variation-settings: "wght" 780, "wdth" 75; font-size: clamp(30px, 3vw, 46px); line-height: 1; letter-spacing: -.02em; }
+.tline .mono { opacity: .75; }
+@media (max-width: 767px) { .tline { height: 160px; } .tline b { font-size: 28px; } .tline .mono { font-size: 11px; white-space: normal; max-width: 15ch; } }
+/* signed prints: a wall of matted prints, slightly off true; they straighten and lift under the mouse */
+.signed { gap: clamp(18px, 2.6vw, 40px); align-items: start; padding: 12px 0 24px; }
+.signed__item { --r: -2deg; position: relative; padding: 12px 12px 14px; background: var(--chalk); color: var(--ink); rotate: var(--r);
+  box-shadow: 0 26px 40px -26px rgba(0,0,0,.75); transition: rotate 650ms var(--ease-load), translate 650ms var(--ease-load), box-shadow 650ms var(--ease-load); }
+.signed__item:nth-child(2) { --r: 1.6deg; margin-top: 30px; }
+.signed__item:nth-child(3) { --r: -1deg; margin-top: 8px; }
+.signed__item:nth-child(4) { --r: 2.2deg; margin-top: 38px; }
+.signed__item .signed__img { background: #e6e2db; }
+.signed__item .signed__meta { color: var(--ink); }
+.signed__item .signed__meta .mono { opacity: .7; }
+@media (hover: hover) and (pointer: fine) { .signed__item:hover { rotate: 0deg; translate: 0 -10px; box-shadow: 0 40px 54px -28px rgba(0,0,0,.8); } }
+@media (max-width: 767px) { .signed__item { --r: -1.2deg; } .signed__item:nth-child(2) { --r: 1deg; margin-top: 18px; } .signed__item:nth-child(3) { --r: .8deg; margin-top: 0; } .signed__item:nth-child(4) { --r: -1deg; margin-top: 18px; } }
+/* product photos: a slow push-in under the mouse, alongside the existing alt-photo swap */
+.card__media:not(.card__media--cut) img { transition: transform 900ms var(--ease-load), opacity var(--d-swap) var(--ease-sheet); }
+@media (hover: hover) and (pointer: fine) { .card:hover .card__media:not(.card__media--cut) img { transform: scale(1.04); } }

@@ -17,7 +17,7 @@
   let lenis = null;
   function mountLenis() {
     if (lenis || reduce.matches || touch.matches || !window.Lenis || !hasGsap()) return;
-    lenis = new Lenis({ duration: 1.1, easing: (t) => 1 - Math.pow(1 - t, 4), smoothWheel: true });
+    lenis = new Lenis({ duration: 1.25, easing: (t) => 1 - Math.pow(1 - t, 4), smoothWheel: true });
     lenis.on('scroll', ScrollTrigger.update);
     gsap.ticker.add((t) => lenis && lenis.raf(t * 1000));
     gsap.ticker.lagSmoothing(0);
@@ -341,10 +341,33 @@
       }
 
       /* reveals (once) */
+      // grids and copy: a longer, softer rise; transforms are cleared afterwards so CSS hover/tilt takes over again
       $$('[data-reveal]').forEach((g) => {
-        const items = $$(g.dataset.reveal, g);
-        gsap.fromTo(items, { y: +(g.dataset.y || 32), opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: 'expo.out', stagger: +(g.dataset.stagger || 0.06), scrollTrigger: { trigger: g, start: 'top 85%', once: true } });
+        const items = $$(g.dataset.reveal, g); if (!items.length) return;
+        gsap.fromTo(items, { y: +(g.dataset.y || 40), opacity: 0 }, { y: 0, opacity: 1, duration: 1.05, ease: 'expo.out', stagger: +(g.dataset.stagger || 0.07),
+          clearProps: 'transform,translate,rotate,scale,opacity', scrollTrigger: { trigger: g, start: 'top 86%', once: true } });
       });
+      // section headings: words rise from behind a mask (text-only headings; accents get headroom so Ó/Á never clip)
+      $$('main h2.h2, .rail__head h2').forEach((h) => {
+        if (h.children.length || !h.textContent.trim()) return;
+        const text = h.textContent.trim(); h.setAttribute('aria-label', text);
+        h.innerHTML = text.split(/\s+/).map((w) => `<span class="w" aria-hidden="true"><span>${w.replace(/&/g, '&amp;').replace(/</g, '&lt;')}</span></span>`).join(' ');
+        gsap.fromTo($$('.w > span', h), { yPercent: 115 }, { yPercent: 0, duration: 1.1, ease: 'expo.out', stagger: 0.05, clearProps: 'transform,translate', scrollTrigger: { trigger: h, start: 'top 88%', once: true } });
+      });
+      // editorial photos: the frame opens upward while the picture settles from 1.12x
+      $$('[data-img-reveal]').forEach((f) => {
+        const img = $('img', f);
+        gsap.timeline({ scrollTrigger: { trigger: f, start: 'top 85%', once: true } })
+          .fromTo(f, { clipPath: 'inset(100% 0% 0% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.25, ease: 'expo.out' })
+          .fromTo(img, { scale: 1.12 }, { scale: 1, duration: 1.7, ease: 'expo.out', clearProps: 'transform,scale' }, 0);
+      });
+      // story timeline: drawn to scale; each milestone appears as the line reaches its year
+      const tline = $('.tline');
+      if (tline) {
+        const t2 = gsap.timeline({ scrollTrigger: { trigger: tline, start: 'top 88%', end: 'top 40%', scrub: 0.6 } });
+        t2.fromTo('.tline__fill', { scaleX: 0 }, { scaleX: 1, ease: 'none', duration: 1 }, 0);
+        $$('li', tline).forEach((li) => t2.fromTo(li, { opacity: 0, y: 10 }, { opacity: 1, y: 0, ease: 'power2.out', duration: 0.18 }, Math.max(0, +getComputedStyle(li).getPropertyValue('--x') * 0.92 - 0.02)));
+      }
 
       /* record v3: the bar loads to 510 kg, plate by plate (nine 25 kg + one 20 kg a side on a 20 kg bar).
          The total starts at the bar and adds each pair as it lands, so the number is the plates, not a free counter. */
