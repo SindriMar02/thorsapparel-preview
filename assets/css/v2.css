@@ -582,3 +582,10 @@ html.js-motion .callout__card { opacity: 0; }
 @media (hover: hover) and (pointer: fine) { .callout__card:hover .callout__btn { background: none; color: var(--bone); text-decoration-color: var(--bone); } }
 @media (pointer: coarse) { .callout__btn { min-height: 0; } .callout__card { min-height: 46px; } }
 @media (max-width: 900px) { .callout__card img { width: 40px; height: 40px; } }
+
+/* 5 Nov (Sindri: "þor not centred on mobile", "make the image of Hafþór on mobile slightly bigger"): on phones the wordmark
+   sits on the same centre axis as the logo and Hafþór, and he stands a touch larger. */
+@media (max-width: 900px) {
+  .h2o__word { left: 0; right: 0; justify-content: center; }
+  .h2o__man, .h2o__base { height: 70%; }
+}
