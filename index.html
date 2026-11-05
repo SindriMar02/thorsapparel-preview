@@ -25,9 +25,9 @@ if(!rm&&!('onpagereveal' in window)&&s.getItem&&s.getItem('ta-nav'))d.classList.
 try{s.setItem&&s.setItem('ta-seen','1')}catch(e){}
 function q(e){var v=e.viewTransition;if(v)['ready','finished','updateCallbackDone'].forEach(function(k){v[k]&&v[k].catch(function(){})})}addEventListener('pagereveal',q);addEventListener('pageswap',q);})();</script>
 <style>@view-transition{navigation:auto}</style>
-<link rel="stylesheet" href="assets/vendor/focus-guard.css?v=mw2qp5rl">
-<link rel="stylesheet" href="assets/css/theme.css?v=mw2qp5rl">
-<link rel="stylesheet" href="assets/css/v2.css?v=mw2qp5rl">
+<link rel="stylesheet" href="assets/vendor/focus-guard.css?v=mw2tbalv">
+<link rel="stylesheet" href="assets/css/theme.css?v=mw2tbalv">
+<link rel="stylesheet" href="assets/css/v2.css?v=mw2tbalv">
 </head>
 <body>
 <div class="page">
@@ -35,7 +35,7 @@ function q(e){var v=e.viewTransition;if(v)['ready','finished','updateCallbackDon
 <div class="loader" aria-hidden="true"><img class="loader__mark" src="assets/img/logo.png" alt="" width="640" height="375"><span class="loader__line"><i></i></span></div>
 
 <header class="bar">
-  <div class="strip mono"><span>Ships worldwide from Iceland and the USA</span><span>14-day size exchanges</span><span>The official clothing line of Hafþór Júlíus Björnsson</span></div>
+  <div class="strip mono"><span>Ships worldwide from Iceland and the USA</span><span>14-day size exchanges</span></div>
   <div class="wrap bar__row">
     <button class="icon-btn menu-btn menu-btn--left" data-open="menu" aria-controls="menu" aria-expanded="false" aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h18M3 12h18M3 17h18"/></svg></button>
     <nav class="nav" aria-label="Main"><a href="collection.html">Tees</a><a href="hoodies.html">Hoodies</a><a href="hats.html">Hats</a><a href="kids.html">Kids</a><a href="autographs.html">Autographs</a></nav>
@@ -51,20 +51,19 @@ function q(e){var v=e.viewTransition;if(v)['ready','finished','updateCallbackDon
 <section class="h2o" aria-labelledby="hero-title">
   <div class="h2o__eyebrow mono" data-fade><span>Hafþór Júlíus Björnsson · World's Strongest Man 2018</span><span>510 kg deadlift world record</span></div>
   <div class="h2o__stage">
-    <img class="h2o__base" src="assets/img/hero-power-base.jpg?v=mw2qp5rl" alt="Hafþór Júlíus Björnsson in a Training to Fight the Mountain top" width="959" height="1279" fetchpriority="high">
+    <img class="h2o__base" src="assets/img/hero-power-base.jpg?v=mw2tbalv" alt="Hafþór Júlíus Björnsson in a Training to Fight the Mountain top" width="959" height="1279" fetchpriority="high">
     <p class="h2o__word" aria-hidden="true"><span>Þ</span><span>Ó</span><span>R</span></p>
-    <img class="h2o__man" src="assets/img/cut/hafthor-power.webp?v=mw2qp5rl" alt="" width="959" height="1279" fetchpriority="high">
+    <img class="h2o__man" src="assets/img/cut/hafthor-power.webp?v=mw2tbalv" alt="" width="959" height="1279" fetchpriority="high">
   </div>
   <div class="h2o__copy" data-fade>
-    <h1 id="hero-title">Strong styles for strong people.</h1>
+    <h1 id="hero-title"><span>Strong styles</span> <span>for strong people.</span></h1>
     <p>The official clothing line of Hafþór Júlíus Björnsson. An Icelandic family business since 2016.</p>
-    <div class="hero__actions"><a class="btn btn--bone" href="#heavyweight">Shop the heavyweights</a><a class="btn btn--ghost" href="#record">See the 510</a></div>
+    <div class="hero__actions"><a class="btn btn--bone btn--go" href="#heavyweight">Shop the heavyweights<svg class="i-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a><button class="tlink" data-open="video" data-yt="j8rIUAZk004" aria-controls="video" aria-expanded="false"><span class="tlink__icon"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z"/></svg></span>Watch the 510 kg lift</button></div>
   </div>
   <div class="h2o__side" data-fade>
     <a class="hero__print" href="p-thor-words-training-to-fight-the-mountain-unisex-t-shirt.html"><img src="assets/img/tfm-flat.jpg" alt="" width="52" height="52"><span><span class="mono">The print on his shirt</span><b>Training To Fight The Mountain · €24,00</b></span></a>
   </div>
 </section>
-<div class="marq" data-dir="left" role="marquee" aria-label="Forged by Thunder, Tempered by Fire, Bound by Honour, Berserkur, Þór"><div class="marq__track"><div class="marq__group"><span>Forged by Thunder<i></i></span><span>Tempered by Fire<i></i></span><span>Bound by Honour<i></i></span><span>Berserkur<i></i></span><span>Þór<i></i></span></div><div class="marq__group" aria-hidden="true" inert><span>Forged by Thunder<i></i></span><span>Tempered by Fire<i></i></span><span>Bound by Honour<i></i></span><span>Berserkur<i></i></span><span>Þór<i></i></span></div></div></div>
 
 <section class="rail" id="heavyweight" aria-labelledby="hw-title">
   <div class="rail__pin">
@@ -84,31 +83,36 @@ function q(e){var v=e.viewTransition;if(v)['ready','finished','updateCallbackDon
   </div>
 </section>
 
-<section class="record on-iron" id="record" aria-labelledby="rec-title">
-  <div class="record__pin">
-    <canvas class="record__burst" aria-hidden="true"></canvas>
-    <p class="record__label mono"><span id="rec-title">Deadlift world record</span><em>Hafþór Júlíus Björnsson</em></p>
-    <p class="record__num" aria-label="510 kilograms"><span class="js-count" data-to="510">510</span><span class="record__unit">KG</span></p>
-    <div class="record__bar" aria-hidden="true"><i></i></div>
-    <div class="record__side">
-      <figure class="record__still"><img src="assets/img/record-still-510.jpg?v=mw2qp5rl" alt="Hafþór after the 510 kg deadlift, World Deadlift Championships 2025" width="1280" height="720" loading="lazy">
-        <button class="record__play" data-open="video" data-yt="j8rIUAZk004" aria-controls="video" aria-expanded="false"><span><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z"/></svg> Watch the lift</span></button></figure>
-      <p class="mono">Guinness World Records, heaviest deadlift · Birmingham, 6 September 2025</p>
-      <a class="record__wear" href="p-510-kg-thors-gym-logo-heavyweight-t-shirt.html"><img src="assets/img/cut/kg510.webp" alt="" width="96" height="96" loading="lazy" style="object-fit:contain;background:var(--chalk)"><span><span class="mono">Wear the number</span><b class="h3" style="display:block">510 KG Thor's Gym Logo tee · €28,00</b></span></a>
-    </div>
+<section class="record2 on-iron sec" id="record" aria-labelledby="rec-title"><div class="wrap">
+  <div class="record2__head">
+    <p class="mono"><span id="rec-title">Deadlift world record</span><span class="record2__by">Hafþór Júlíus Björnsson</span></p>
+    <p class="mono record2__src">Guinness World Records, heaviest deadlift · Birmingham, 6 September 2025</p>
   </div>
-</section>
-<div class="marq" data-dir="right" role="marquee" aria-label="Strong, Brave, Kind, Since 2016, Kópavogur"><div class="marq__track"><div class="marq__group"><span>Strong<i></i></span><span>Brave<i></i></span><span>Kind<i></i></span><span>Since 2016<i></i></span><span>Kópavogur<i></i></span></div><div class="marq__group" aria-hidden="true" inert><span>Strong<i></i></span><span>Brave<i></i></span><span>Kind<i></i></span><span>Since 2016<i></i></span><span>Kópavogur<i></i></span></div></div></div>
+  <div class="record2__lift">
+    <p class="record2__num" aria-label="510 kilograms, 1,124 pounds"><span class="js-load" data-to="510">510</span><span class="record2__unit">kg</span></p>
+    <p class="record2__lb mono" aria-hidden="true">1,124 lb</p>
+  </div>
+  <div class="bbell" aria-hidden="true"><span class="bbell__shaft"></span>
+    <span class="bbell__side bbell__side--l"><i class="collar"></i><i class="plate" data-kg="25"></i><i class="plate" data-kg="25"></i><i class="plate" data-kg="25"></i><i class="plate" data-kg="25"></i><i class="plate" data-kg="25"></i><i class="plate" data-kg="25"></i><i class="plate" data-kg="25"></i><i class="plate" data-kg="25"></i><i class="plate" data-kg="25"></i><i class="plate plate--20" data-kg="20"></i></span>
+    <span class="bbell__side bbell__side--r"><i class="collar"></i><i class="plate" data-kg="25"></i><i class="plate" data-kg="25"></i><i class="plate" data-kg="25"></i><i class="plate" data-kg="25"></i><i class="plate" data-kg="25"></i><i class="plate" data-kg="25"></i><i class="plate" data-kg="25"></i><i class="plate" data-kg="25"></i><i class="plate" data-kg="25"></i><i class="plate plate--20" data-kg="20"></i></span>
+  </div>
+  <p class="record2__math mono">On a 20 kg bar: nine 25 kg plates and one 20 kg plate a side.</p>
+  <div class="record2__side">
+    <figure class="record__still"><img src="assets/img/record-still-510.jpg?v=mw2tbalv" alt="Hafþór after the 510 kg deadlift, World Deadlift Championships 2025" width="1280" height="720" loading="lazy">
+      <button class="record__play" data-open="video" data-yt="j8rIUAZk004" aria-controls="video" aria-expanded="false"><span><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z"/></svg> Watch the lift</span></button></figure>
+    <a class="record__wear" href="p-510-kg-thors-gym-logo-heavyweight-t-shirt.html"><img src="assets/img/cut/kg510.webp" alt="" width="96" height="96" loading="lazy" style="object-fit:contain;background:var(--chalk)"><span><span class="mono">Wear the number</span><b class="h3" style="display:block">510 KG Thor's Gym Logo tee · €28,00</b></span><svg class="i-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>
+  </div>
+</div></section>
 
 <section class="on-chalk sec" aria-labelledby="board-title"><div class="wrap">
   <div class="board__intro"><h2 class="h2" id="board-title">Shop by</h2><span class="mono">58 products</span></div>
-  <div class="panels">
-    <a class="panel is-open" href="collection.html" aria-expanded="true"><img src="assets/img/kg510-model.jpg" alt="" loading="lazy" width="900" height="900"><span class="panel__count mono">32</span><span class="panel__label">Tees</span><span class="panel__body"><b>Tees</b><span class="mono">Shop 32</span></span></a>
-    <a class="panel" href="hoodies.html" aria-expanded="false"><img src="assets/img/hoodie-pain.jpg" alt="" loading="lazy" width="900" height="900"><span class="panel__count mono">06</span><span class="panel__label">Hoodies</span><span class="panel__body"><b>Hoodies</b><span class="mono">Shop 6</span></span></a>
-    <a class="panel" href="hats.html" aria-expanded="false"><img src="assets/img/cap.jpg" alt="" loading="lazy" width="900" height="900"><span class="panel__count mono">04</span><span class="panel__label">Hats</span><span class="panel__body"><b>Hats</b><span class="mono">Shop 4</span></span></a>
-    <a class="panel" href="kids.html" aria-expanded="false"><img src="assets/img/toddler-model.jpg" alt="" loading="lazy" width="900" height="900"><span class="panel__count mono">08</span><span class="panel__label">Kids</span><span class="panel__body"><b>Kids</b><span class="mono">Shop 8</span></span></a>
-    <a class="panel" href="kit.html" aria-expanded="false"><img src="assets/img/bottle.jpg" alt="" loading="lazy" width="900" height="900"><span class="panel__count mono">05</span><span class="panel__label">Gym kit</span><span class="panel__body"><b>Gym kit</b><span class="mono">Shop 5</span></span></a>
-    <a class="panel" href="autographs.html" aria-expanded="false"><img src="assets/img/story-got.jpg" alt="" loading="lazy" width="900" height="900"><span class="panel__count mono">04</span><span class="panel__label">Autographs</span><span class="panel__body"><b>Autographs</b><span class="mono">Shop 4</span></span></a>
+  <div class="cats">
+    <a class="cat" href="collection.html"><img src="assets/img/kg510-model.jpg" alt="" loading="lazy" width="900" height="900"><span class="cat__foot"><span class="cat__name">Tees</span><span class="cat__meta mono">32 <svg class="i-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span></span></a>
+    <a class="cat" href="hoodies.html"><img src="assets/img/hoodie-pain.jpg" alt="" loading="lazy" width="900" height="900"><span class="cat__foot"><span class="cat__name">Hoodies</span><span class="cat__meta mono">6 <svg class="i-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span></span></a>
+    <a class="cat" href="hats.html"><img src="assets/img/cap.jpg" alt="" loading="lazy" width="900" height="900"><span class="cat__foot"><span class="cat__name">Hats</span><span class="cat__meta mono">4 <svg class="i-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span></span></a>
+    <a class="cat" href="kids.html"><img src="assets/img/toddler-model.jpg" alt="" loading="lazy" width="900" height="900"><span class="cat__foot"><span class="cat__name">Kids</span><span class="cat__meta mono">8 <svg class="i-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span></span></a>
+    <a class="cat" href="kit.html"><img src="assets/img/bottle.jpg" alt="" loading="lazy" width="900" height="900"><span class="cat__foot"><span class="cat__name">Gym kit</span><span class="cat__meta mono">5 <svg class="i-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span></span></a>
+    <a class="cat" href="autographs.html"><img src="assets/img/story-got.jpg" alt="" loading="lazy" width="900" height="900"><span class="cat__foot"><span class="cat__name">Autographs</span><span class="cat__meta mono">4 <svg class="i-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span></span></a>
   </div>
 </div></section>
 
@@ -202,9 +206,9 @@ function q(e){var v=e.viewTransition;if(v)['ready','finished','updateCallbackDon
 <div class="curtain" aria-hidden="true"></div>
 <div class="toast mono" role="status" aria-live="polite"></div>
 </div>
-<script src="assets/vendor/gsap.min.js?v=mw2qp5rl" defer></script>
-<script src="assets/vendor/ScrollTrigger.min.js?v=mw2qp5rl" defer></script>
-<script src="assets/vendor/lenis.min.js?v=mw2qp5rl" defer></script>
-<script src="assets/js/theme.js?v=mw2qp5rl" defer></script>
+<script src="assets/vendor/gsap.min.js?v=mw2tbalv" defer></script>
+<script src="assets/vendor/ScrollTrigger.min.js?v=mw2tbalv" defer></script>
+<script src="assets/vendor/lenis.min.js?v=mw2tbalv" defer></script>
+<script src="assets/js/theme.js?v=mw2tbalv" defer></script>
 </body>
 </html>

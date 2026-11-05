@@ -286,3 +286,62 @@ html.nav-in .curtain { clip-path: inset(0 0 0 0); }
   .drawer { box-shadow: 0 140px 0 0 var(--chalk); }
   .scrim::after, .zoom::after, .vdialog::after { content: ""; position: absolute; left: 0; right: 0; top: 100%; height: 140px; background: inherit; pointer-events: none; }
 }
+
+/* ===== v2.4 home pass (Sindri 4-5 Nov): Ó baseline, quiet strip, slogan + buttons, category grid, the loaded bar ===== */
+/* Ó: the old offset (left -.06em, top .07em) dropped it below Þ and R and let its accent pop behind his head on parallax */
+.h2o__word span:nth-child(2) { left: 0; top: 0; }
+/* announcement strip: one quiet line, two facts */
+.strip { gap: 0; letter-spacing: .1em; color: rgba(242,239,234,.72); }
+.strip span + span::before { margin: 0 18px; }
+/* buttons: tighter proportions, arrow on navigation buttons, clear keyboard focus */
+.btn { min-height: 52px; padding: 0 22px; font-size: 12.5px; letter-spacing: .08em; gap: 12px; white-space: nowrap; }
+.tlink { white-space: nowrap; }
+.btn:focus-visible, .tlink:focus-visible, .cat:focus-visible { outline: 2px solid var(--plate); outline-offset: 3px; }
+.i-arrow { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: square; transition: transform var(--d-hover) var(--ease-sheet); }
+.btn--go { padding-right: 18px; }
+.tlink { display: inline-flex; align-items: center; gap: 12px; min-height: 52px; padding: 0 4px; color: var(--bone); font-family: var(--mono); font-weight: 700; font-size: 12.5px; letter-spacing: .08em; text-transform: uppercase; }
+.tlink__icon { width: 40px; height: 40px; display: grid; place-items: center; border: 1.5px solid rgba(242,239,234,.5); transition: background-color var(--d-hover) var(--ease-sheet), color var(--d-hover) var(--ease-sheet), border-color var(--d-hover) var(--ease-sheet); }
+.tlink__icon svg { width: 11px; height: 11px; fill: currentColor; margin-left: 2px; }
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover .i-arrow, .cat:hover .i-arrow, .record__wear:hover .i-arrow { transform: translateX(4px); }
+  .tlink:hover .tlink__icon { background: var(--bone); color: var(--iron); border-color: var(--bone); }
+}
+/* hero copy: weight contrast in the slogan, the brand line back on desktop */
+.h2o__copy h1 span { display: block; }
+.h2o__copy h1 span + span { font-variation-settings: "wght" 300, "wdth" 75; }
+.h2o__copy h1 { font-size: clamp(32px, 3.4vw, 58px); line-height: .92; }
+.h2o__copy p { color: rgba(242,239,234,.72); }
+.hero__actions { gap: 20px; align-items: center; }
+@media (min-width: 901px) { .h2o__copy { gap: 22px; } .hero__actions { flex-wrap: nowrap; } } /* desktop: the eyebrow carries the brand line */
+/* shop by: calm category grid, no expanding panels */
+.cats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2px; background: var(--chalk-2); }
+.cat { position: relative; display: block; aspect-ratio: 1 / 1; overflow: hidden; background: var(--iron); color: var(--bone); text-decoration: none; }
+.cat img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 900ms var(--ease-load); }
+.cat__foot { position: absolute; left: 0; right: 0; bottom: 0; display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 16px 20px; background: var(--iron); }
+.cat__name { font-variation-settings: "wght" 800, "wdth" 75; font-size: clamp(26px, 2.4vw, 40px); line-height: .9; text-transform: uppercase; letter-spacing: -.01em; }
+.cat__meta { display: inline-flex; align-items: center; gap: 8px; opacity: .8; }
+@media (hover: hover) and (pointer: fine) { .cat:hover img { transform: scale(1.04); } }
+@media (max-width: 767px) { .cats { grid-template-columns: repeat(2, minmax(0, 1fr)); } .cat { aspect-ratio: 3 / 4; } .cat__foot { padding: 12px 14px; } .cat__name { font-size: 22px; } }
+/* the 510: a bar loaded to the record */
+.record2 { color: var(--bone); }
+.record2 .wrap { display: grid; gap: clamp(24px, 3.4vw, 48px); }
+.record2__head { display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; padding-bottom: 18px; border-bottom: 1px solid var(--rule-iron); }
+.record2__head p:first-child { display: flex; gap: 18px; flex-wrap: wrap; }
+.record2__by { color: var(--plate); }
+.record2__src { opacity: .7; }
+.record2__lift { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+.record2__num { display: flex; align-items: flex-start; font-variation-settings: "wght" 800, "wdth" 75; font-size: clamp(120px, 19vw, 300px); line-height: .78; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
+.record2__unit { font-size: .22em; line-height: 1; margin: .1em 0 0 .06em; letter-spacing: 0; color: var(--plate); text-transform: uppercase; }
+.record2__lb { font-size: clamp(14px, 1.3vw, 18px); opacity: .7; padding-bottom: .6em; }
+.bbell { position: relative; height: clamp(130px, 17vw, 260px); display: flex; justify-content: space-between; align-items: center; padding: 0 1%; }
+.bbell__shaft { position: absolute; left: 0; right: 0; top: 50%; height: clamp(5px, .6vw, 9px); transform: translateY(-50%); background: rgba(242,239,234,.42); }
+.bbell__side { position: relative; z-index: 1; display: flex; align-items: center; gap: clamp(2px, .25vw, 4px); height: 100%; }
+.bbell__side--l { flex-direction: row-reverse; }
+.plate { flex: none; display: block; width: clamp(8px, 1.2vw, 19px); height: 100%; border-radius: 3px; background: var(--plate); }
+.plate--20 { width: clamp(7px, 1vw, 16px); background: var(--bone); }
+.collar { flex: none; display: block; width: clamp(6px, .9vw, 14px); height: 26%; border-radius: 2px; background: rgba(242,239,234,.7); }
+.record2__math { text-align: center; opacity: .7; }
+.record2__side { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 20px; align-items: end; }
+.record2 .record__wear { display: flex; align-items: center; gap: 16px; padding: 14px 18px 14px 14px; border: 1px solid var(--rule-iron); color: var(--bone); text-decoration: none; }
+.record2 .record__wear > span { flex: 1; }
+@media (max-width: 767px) { .record2__side { grid-template-columns: 1fr; } .record2__lb { padding-bottom: .3em; } .bbell { height: 120px; } }

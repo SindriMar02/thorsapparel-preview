@@ -346,18 +346,20 @@
         gsap.fromTo(items, { y: +(g.dataset.y || 32), opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: 'expo.out', stagger: +(g.dataset.stagger || 0.06), scrollTrigger: { trigger: g, start: 'top 85%', once: true } });
       });
 
-      /* record counter (signature) + chalk burst at lockout */
-      const rec = $('.record');
-      if (rec) {
-        const num = $('.js-count', rec), target = +num.dataset.to || 510, o = { v: 0 }; let armed = true;
-        const tl = gsap.timeline({ defaults: { ease: 'none' },
-          scrollTrigger: Object.assign(phone ? { trigger: rec, start: 'top 85%', end: 'center 45%', scrub: 0.5 } : { trigger: rec, start: 'top top', end: '+=160%', scrub: 0.5, pin: '.record__pin', anticipatePin: 1 },
-            { onUpdate: (s) => { if (s.progress > 0.97 && armed) { armed = false; chalkBurst($('.record__burst', rec)); } if (s.progress < 0.6) armed = true; } }) });
-        tl.fromTo(o, { v: 0 }, { v: target, duration: 1, onUpdate: () => { num.textContent = Math.round(o.v); } }, 0)
-          .fromTo('.record__num', { '--w': 200 }, { '--w': 800, duration: 1 }, 0)
-          .fromTo('.record__bar i', { scaleX: 0 }, { scaleX: 1, duration: 1 }, 0)
-          .fromTo('.record__still', { clipPath: 'inset(0% 0% 100% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.35 }, 0.15)
-          .fromTo('.record__wear', { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.2 }, 0.5);
+      /* record v3: the bar loads to 510 kg, plate by plate (nine 25 kg + one 20 kg a side on a 20 kg bar).
+         The total starts at the bar and adds each pair as it lands, so the number is the plates, not a free counter. */
+      const bb = $('.bbell');
+      if (bb) {
+        const num = $('.js-load'), L = $$('.bbell__side--l .plate', bb), Rr = $$('.bbell__side--r .plate', bb);
+        let total = 20; num.textContent = '20';
+        const tl = gsap.timeline({ paused: true });
+        L.forEach((l, i) => {
+          const kg = +l.dataset.kg;
+          tl.fromTo([l, Rr[i]], { x: (n) => (n === 0 ? -48 : 48), opacity: 0 }, { x: 0, opacity: 1, duration: 0.3, ease: 'power3.out',
+            onStart: () => { total = 20 + 2 * L.slice(0, i + 1).reduce((s, p) => s + +p.dataset.kg, 0); num.textContent = total; } }, i * 0.11);
+        });
+        tl.fromTo('.record2__lb, .record2__math', { opacity: 0 }, { opacity: 1, duration: 0.4 }, '>-0.1');
+        ScrollTrigger.create({ trigger: bb, start: 'top 78%', once: true, onEnter: () => tl.play() });
       }
 
       /* story: the photo opens from a narrow column to its full frame */
@@ -405,6 +407,6 @@
   const start = () => { navIn(); try { setupMotion(); } catch (err) { root.classList.remove('js-motion'); console.warn('motion off', err); } runLoader(); };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
   phoneMQ.addEventListener?.('change', () => { try { setupMotion(); } catch (_) {} });
-  reduce.addEventListener?.('change', () => { if (ctx) { ctx.revert(); ctx = null; } $$('.js-count').forEach((n) => (n.textContent = n.dataset.to)); try { setupMotion(); } catch (_) {} });
+  reduce.addEventListener?.('change', () => { if (ctx) { ctx.revert(); ctx = null; } $$('.js-count, .js-load').forEach((n) => (n.textContent = n.dataset.to)); try { setupMotion(); } catch (_) {} });
   setTimeout(() => { if (!window.gsap) { root.classList.remove('js-motion'); root.classList.remove('is-loading'); $('.loader')?.remove(); } }, 3000);
 })();
