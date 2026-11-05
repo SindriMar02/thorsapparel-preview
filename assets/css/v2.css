@@ -476,3 +476,10 @@ html:not([data-input="pointer"]) .panel:focus-visible::after { opacity: 1; }
 /* the two editorial photos on the home push in slowly under the mouse (after their one-time reveal clears its transform) */
 .rec__media img, .calm .story__media img { transition: transform 900ms var(--ease-load); }
 @media (hover: hover) and (pointer: fine) { .rec__media:hover img, .calm .story__media:hover img { transform: scale(1.03); } }
+/* phones: the longest caption ("Autographs") plus "Shop 4" must fit an open row down to 320 px; the consent line is a 44 pt target
+   (Codex iOS pass 5 Nov: label 36 px tall) */
+@media (max-width: 900px) {
+  .panel__body { flex-wrap: wrap; row-gap: 6px; }
+  .panel__body b { font-size: clamp(34px, 10.5vw, 56px); }
+}
+@media (pointer: coarse) { .signup label.consent { min-height: 44px; align-items: center; } }

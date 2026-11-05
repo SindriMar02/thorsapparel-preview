@@ -178,15 +178,19 @@
   // Phones: the row that closes may sit above the tapped one, so the tapped row is held still while heights change. Only the
   // layout shift is compensated (document-space movement of the row), so a swipe made during the change is never undone.
   const panels = $$('.panel');
-  let holdRaf = 0, lastPtr = '';
+  // The correction runs in a ResizeObserver (after layout, before paint, so WebKit shows no one-frame dip: the Codex iOS pass
+  // measured -10.6 px at 300 ms with rAF alone) and in rAF as a fallback; each pass only corrects what is left.
+  let holdRaf = 0, holdRO = null, lastPtr = '';
   const openPanel = (p) => {
     if (p.classList.contains('is-open')) return;
     const stacked = phoneMQ.matches;
     let prev = p.getBoundingClientRect().top + scrollY;
     panels.forEach((x) => { x.classList.toggle('is-open', x === p); x.setAttribute('aria-expanded', String(x === p)); });
     if (!stacked) return;
-    cancelAnimationFrame(holdRaf); const t0 = performance.now();
-    const hold = (now) => { const doc = p.getBoundingClientRect().top + scrollY, shift = doc - prev; prev = doc; if (Math.abs(shift) > 0.5) { scrollBy(0, shift); prev = p.getBoundingClientRect().top + scrollY; } if (now - t0 < 760) holdRaf = requestAnimationFrame(hold); };
+    cancelAnimationFrame(holdRaf); holdRO?.disconnect(); const t0 = performance.now();
+    const fix = () => { const doc = p.getBoundingClientRect().top + scrollY, shift = doc - prev; prev = doc; if (Math.abs(shift) > 0.5) { scrollBy(0, shift); prev = p.getBoundingClientRect().top + scrollY; } };
+    if (window.ResizeObserver) { holdRO = new ResizeObserver(fix); panels.forEach((x) => holdRO.observe(x)); }
+    const hold = (now) => { fix(); if (now - t0 < 760) holdRaf = requestAnimationFrame(hold); else { holdRO?.disconnect(); holdRO = null; } };
     holdRaf = requestAnimationFrame(hold);
   };
   panels.forEach((p) => {
