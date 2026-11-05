@@ -382,3 +382,69 @@ html.nav-in .curtain { clip-path: inset(0 0 0 0); }
 /* product photos: a slow push-in under the mouse, alongside the existing alt-photo swap */
 .card__media:not(.card__media--cut) img { transition: transform 900ms var(--ease-load), opacity var(--d-swap) var(--ease-sheet); }
 @media (hover: hover) and (pointer: fine) { .card:hover .card__media:not(.card__media--cut) img { transform: scale(1.04); } }
+
+/* ===== v2.6 calm pass (Sindri 5 Nov: "the landing page is so overstimulating, should be more clean") =====
+   One display moment (the hero). Sections on chalk, modest headings, labels under photos, no tilt/scrub/parallax. */
+.calm .h2 { font-size: clamp(26px, 2.4vw, 38px); }
+.calm__head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-bottom: clamp(20px, 2.2vw, 32px); }
+.sec.calm + .sec.calm { padding-top: 0; }
+.h2o__eyebrow { justify-content: flex-start; }
+/* categories: photo, then name and count underneath; six across on desktop */
+.cats { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 28px 16px; background: none; }
+.cat { aspect-ratio: auto; display: grid; gap: 12px; background: none; color: var(--iron); overflow: visible; }
+.cat__img { position: relative; display: block; aspect-ratio: 4 / 5; overflow: hidden; background: var(--chalk-2); }
+.cat__img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 900ms var(--ease-load); }
+.cat > img { display: none; }
+.cat__foot { position: static; padding: 0; background: none; display: flex; justify-content: space-between; align-items: baseline; }
+.cat__name { font-variation-settings: "wght" 700, "wdth" 87.5; font-size: 17px; line-height: 1.2; text-transform: none; letter-spacing: 0; }
+.cat__meta { font-size: 12px; opacity: .6; }
+.cat__meta .i-arrow { width: 14px; height: 14px; }
+@media (hover: hover) and (pointer: fine) { .cat:hover .cat__img img { transform: scale(1.04); } }
+@media (max-width: 1023px) { .cats { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 767px) { .cats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 12px; } .cat { aspect-ratio: auto; } .cat__foot { padding: 0; } .cat__name { font-size: 15px; } }
+/* the record: one calm editorial row */
+.rec { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 64px); align-items: center; }
+.rec__media { position: relative; aspect-ratio: 16 / 9; overflow: hidden; margin: 0; background: var(--iron); }
+.rec__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.rec__text { display: grid; gap: 14px; justify-items: start; }
+.rec__num { font-variation-settings: "wght" 800, "wdth" 75; font-size: clamp(56px, 6vw, 96px); line-height: .9; letter-spacing: -.03em; text-transform: uppercase; }
+.rec__tee { display: flex; align-items: center; gap: 14px; margin-top: 8px; padding: 10px 16px 10px 10px; border: 1px solid var(--rule-chalk); color: inherit; text-decoration: none; transition: border-color var(--d-hover) var(--ease-sheet); }
+.rec__tee img { width: 56px; height: 56px; object-fit: contain; background: var(--chalk-2); }
+.rec__tee b { display: block; font-variation-settings: "wght" 700, "wdth" 87.5; font-size: 15px; }
+@media (hover: hover) and (pointer: fine) { .rec__tee:hover { border-color: var(--iron); } .rec__tee:hover .i-arrow { transform: translateX(4px); } }
+@media (max-width: 900px) { .rec { grid-template-columns: 1fr; } }
+/* story on chalk */
+.calm .story__media img { position: absolute; inset: 0; width: 100%; height: 100%; }
+/* menu: calm hover (the rest dim, the one under the pointer steps in), map pin + social icons */
+.menu__foot { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+.mlink { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; color: inherit; text-decoration: none; }
+.mlink svg, .soc svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.6; }
+.mlink svg .fill, .soc svg .fill { fill: currentColor; stroke: none; }
+.soc svg .fill { fill: currentColor; stroke: none; }
+.socials { display: inline-flex; gap: 8px; }
+.soc { width: 44px; height: 44px; display: grid; place-items: center; border: 1px solid var(--rule-iron); color: inherit; transition: background-color var(--d-hover) var(--ease-sheet), color var(--d-hover) var(--ease-sheet), border-color var(--d-hover) var(--ease-sheet); }
+@media (hover: hover) and (pointer: fine) {
+  .soc:hover { background: var(--bone); color: var(--iron); border-color: var(--bone); }
+  .mlink:hover span { text-decoration: underline; text-underline-offset: 4px; }
+  .menu.is-open .menu__list:hover a { transition-delay: 0s; }
+  .menu.is-open .menu__list:hover a:not(:hover) { opacity: .38; }
+  .menu.is-open .menu__list a:hover { transform: translateX(12px); }
+}
+
+/* v2.6b icons on the product page + footer, quieter home grid (Sindri 5 Nov: "use icons more") */
+.calm .card__badge { display: none; }
+.assure { gap: 10px; }
+.assure span { display: inline-flex; align-items: center; gap: 10px; }
+.assure span::before { display: none; }
+.assure svg, .btn--ico svg, .ulink--ico svg, .flink svg { flex: none; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linejoin: round; stroke-linecap: round; }
+.assure svg { width: 18px; height: 18px; opacity: .8; }
+.btn--ico svg { width: 18px; height: 18px; }
+.ulink--ico { display: inline-flex; align-items: center; gap: 8px; }
+.ulink--ico svg { width: 16px; height: 16px; }
+.btn--pp { background: #FFC439; border-color: #FFC439; color: #003087; text-transform: none; letter-spacing: 0; }
+.btn--pp .pp { font-family: var(--sans, inherit); font-style: italic; font-size: 19px; font-variation-settings: "wght" 800, "wdth" 87.5; letter-spacing: -.01em; }
+.btn--pp .pp b + b { color: #009CDE; }
+@media (hover: hover) and (pointer: fine) { .btn--pp:hover { background: #F2BA36; border-color: #F2BA36; } }
+.flink { display: inline-flex; align-items: center; gap: 10px; }
+.flink svg { width: 18px; height: 18px; }
+.flink svg .fill { fill: currentColor; stroke: none; }

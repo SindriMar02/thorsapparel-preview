@@ -28,9 +28,9 @@ function q(e){var v=e.viewTransition;if(v)['ready','finished','updateCallbackDon
 <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png">
 <link rel="icon" type="image/png" sizes="48x48" href="assets/img/favicon-48.png">
 <link rel="apple-touch-icon" sizes="180x180" href="assets/img/apple-touch-icon.png">
-<link rel="stylesheet" href="assets/vendor/focus-guard.css?v=mw2u8zlq">
-<link rel="stylesheet" href="assets/css/theme.css?v=mw2u8zlq">
-<link rel="stylesheet" href="assets/css/v2.css?v=mw2u8zlq">
+<link rel="stylesheet" href="assets/vendor/focus-guard.css?v=mw2uubnz">
+<link rel="stylesheet" href="assets/css/theme.css?v=mw2uubnz">
+<link rel="stylesheet" href="assets/css/v2.css?v=mw2uubnz">
 </head>
 <body>
 <div class="page">
@@ -63,9 +63,9 @@ function q(e){var v=e.viewTransition;if(v)['ready','finished','updateCallbackDon
     <div><div class="opt__head"><span class="mono">Colour: Black</span></div></div>
     <div><div class="opt__head"><span class="mono" id="size-picked">Pick a size</span></div>
       <div class="sizegrid" role="group" aria-label="Size"><button aria-pressed="false">NB</button><button aria-pressed="false">6M</button><button aria-pressed="false">12M</button><button aria-pressed="false">18M</button></div></div>
-    <div class="buy__ctas"><button class="btn btn--iron btn--block" id="add-main">Add to cart</button>
-      <button class="btn btn--paypal btn--block" data-concept="Concept: Shopify's PayPal button renders here">Buy with PayPal</button></div>
-    <div class="assure"><span>Ships worldwide from Iceland and the USA</span><span>14 days to exchange the size</span></div>
+    <div class="buy__ctas"><button class="btn btn--iron btn--block btn--ico" id="add-main"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1 13H6L5 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span>Add to cart</span></button>
+      <button class="btn btn--pp btn--block" data-concept="Concept: Shopify's PayPal button renders here" aria-label="Buy with PayPal"><span class="pp"><b>Pay</b><b>Pal</b></span></button></div>
+    <div class="assure"><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 6.5h11v9h-11zM13.5 9.5h4l3 3v3h-7z"/><circle cx="6.5" cy="17" r="1.8"/><circle cx="17" cy="17" r="1.8"/></svg>Ships worldwide from Iceland and the USA</span><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h14l-3.5-3.5M20 16H6l3.5 3.5"/></svg>14 days to exchange the size</span></div>
     <div class="acc">
       <div class="acc__item"><button class="acc__btn" aria-expanded="true">Details<i></i></button><div class="acc__panel"><div><div class="body-copy"><p>Soft blend onesie</p><ul><li>100% combed ring-spun cotton</li><li>1x1 baby rib</li><li>Flatlock stitched seams</li><li>Double-needle ribbed binding on neck, shoulders, sleeves and leg openings</li><li>Innovative three-snap closure</li></ul></div></div></div></div>
       <div class="acc__item"><button class="acc__btn" aria-expanded="false">Shipping and exchanges<i></i></button><div class="acc__panel"><div><div class="body-copy"><p>Ships worldwide from our warehouses in Iceland and the United States. Try it on, and you have 14 days to exchange for another size.</p></div></div></div></div>
@@ -108,14 +108,13 @@ function q(e){var v=e.viewTransition;if(v)['ready','finished','updateCallbackDon
 
 
 <footer class="on-iron foot"><div class="wrap">
-  <p class="foot__mark" data-weight data-from="200" data-to="800" data-end="bottom bottom" aria-hidden="true">Thor's Apparel</p>
   <div class="foot__cols">
     <form class="signup" onsubmit="return false"><h3 class="mono">Join the drop list</h3>
       <div class="signup__row"><label class="sr-only" for="em">Email</label><input id="em" type="email" placeholder="Email address" autocomplete="email"><button class="btn btn--bone" data-concept="Concept: nothing sent">Join</button></div>
       <label class="consent"><input type="checkbox"> Email me about new drops. Unsubscribe any time.</label></form>
     <div><h3 class="mono">Shop</h3><ul><li><a href="collection.html">Tees</a></li><li><a href="hoodies.html">Hoodies</a></li><li><a href="hats.html">Hats</a></li><li><a href="kids.html">Kids</a></li><li><a href="kit.html">Gym kit</a></li><li><a href="autographs.html">Autographs</a></li></ul></div>
     <div><h3 class="mono">Help</h3><ul><li><a href="#" data-concept="Concept: shipping policy page">Shipping</a></li><li><a href="#" data-concept="Concept: exchanges page">Exchanges and returns</a></li><li><a href="product.html">Size guide</a></li><li><a href="#" data-concept="Concept: contact page">Contact</a></li><li><a href="#" data-concept="Concept: privacy policy">Privacy</a></li></ul></div>
-    <div><h3 class="mono">Thor's Power Gym</h3><ul><li><a href="https://maps.app.goo.gl/eKCShfzPoUbCxztf6" rel="noreferrer">Kópavogur, Iceland. Open in Maps</a></li><li><a href="https://www.instagram.com/thorbjornsson" rel="noreferrer">Instagram @thorbjornsson</a></li><li><a href="https://www.youtube.com/@Hafthorjulius" rel="noreferrer">YouTube @Hafthorjulius</a></li></ul></div>
+    <div><h3 class="mono">Thor's Power Gym</h3><ul><li><a class="flink" href="https://maps.app.goo.gl/eKCShfzPoUbCxztf6" rel="noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span>Kópavogur, Iceland</span></a></li><li><a class="flink" href="https://www.instagram.com/thorbjornsson" rel="noreferrer" aria-label="Instagram, @thorbjornsson"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.1" class="fill"/></svg><span>@thorbjornsson</span></a></li><li><a class="flink" href="https://www.youtube.com/@Hafthorjulius" rel="noreferrer" aria-label="YouTube, @Hafthorjulius"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="M10 9.3v5.4l4.6-2.7z" class="fill"/></svg><span>@Hafthorjulius</span></a></li></ul></div>
   </div>
   <div class="foot__base mono"><span>© 2026 Thor's Apparel · An Icelandic family business since 2016</span>
     <a class="sndr-badge" href="https://sndrstudio.is" target="_blank" rel="noreferrer" aria-label="Concept by SNDR Studio" style="--sndr-ink:rgba(255,255,255,0.72);--sndr-ember:#FF8A3D"><span class="sndr-badge-mark">SN<span class="sndr-badge-star">✦</span>DR</span><span class="sndr-badge-studio">STUDIO</span></a></div>
@@ -145,7 +144,7 @@ function q(e){var v=e.viewTransition;if(v)['ready','finished','updateCallbackDon
 <nav class="menu" id="menu" aria-label="Menu" aria-hidden="true" tabindex="-1" data-lenis-prevent>
   <div class="menu__head"><img src="assets/img/logo.png" alt="" width="64" height="38" style="height:38px;width:auto"><button class="icon-btn" data-close aria-label="Close menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 5 14 14M19 5 5 19"/></svg></button></div>
   <ul class="menu__list"><li><a href="collection.html" style="--i:0">Tees<span>32</span></a></li><li><a href="hoodies.html" style="--i:1">Hoodies<span>6</span></a></li><li><a href="hats.html" style="--i:2">Hats<span>4</span></a></li><li><a href="kids.html" style="--i:3">Kids<span>8</span></a></li><li><a href="kit.html" style="--i:4">Gym kit<span>5</span></a></li><li><a href="autographs.html" style="--i:5">Autographs<span>4</span></a></li></ul>
-  <div class="menu__foot mono"><a class="ulink" href="https://maps.app.goo.gl/eKCShfzPoUbCxztf6" rel="noreferrer">Visit Thor's Power Gym</a><a class="ulink" href="https://www.instagram.com/thorbjornsson" rel="noreferrer">Instagram</a></div>
+  <div class="menu__foot"><a class="mlink" href="https://maps.app.goo.gl/eKCShfzPoUbCxztf6" rel="noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span class="mono">Thor's Power Gym, Kópavogur</span></a><span class="socials"><a class="soc" href="https://www.instagram.com/thorbjornsson" rel="noreferrer" aria-label="Instagram, @thorbjornsson"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.1" class="fill"/></svg></a><a class="soc" href="https://www.youtube.com/@Hafthorjulius" rel="noreferrer" aria-label="YouTube, @Hafthorjulius"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="M10 9.3v5.4l4.6-2.7z" class="fill"/></svg></a></span></div>
 </nav>
 <div class="vdialog" id="video" role="dialog" aria-modal="true" aria-label="510 kg deadlift world record video" aria-hidden="true" tabindex="-1">
   <div class="vdialog__box"><div class="vdialog__close"><button class="btn btn--ghost" data-close style="min-height:44px">Close</button></div><div class="vdialog__frame"></div></div>
@@ -154,9 +153,9 @@ function q(e){var v=e.viewTransition;if(v)['ready','finished','updateCallbackDon
 <div class="curtain" aria-hidden="true"></div>
 <div class="toast mono" role="status" aria-live="polite"></div>
 </div>
-<script src="assets/vendor/gsap.min.js?v=mw2u8zlq" defer></script>
-<script src="assets/vendor/ScrollTrigger.min.js?v=mw2u8zlq" defer></script>
-<script src="assets/vendor/lenis.min.js?v=mw2u8zlq" defer></script>
-<script src="assets/js/theme.js?v=mw2u8zlq" defer></script>
+<script src="assets/vendor/gsap.min.js?v=mw2uubnz" defer></script>
+<script src="assets/vendor/ScrollTrigger.min.js?v=mw2uubnz" defer></script>
+<script src="assets/vendor/lenis.min.js?v=mw2uubnz" defer></script>
+<script src="assets/js/theme.js?v=mw2uubnz" defer></script>
 </body>
 </html>

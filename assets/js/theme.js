@@ -157,8 +157,8 @@
     });
     const doAdd = (btn, e) => {
       if (!size) { say('Pick a size first'); grid.querySelector('button').focus({ preventScroll: true }); const y = grid.getBoundingClientRect().top + scrollY - innerHeight / 2; lenis ? lenis.scrollTo(y) : scrollTo({ top: y, behavior: reduce.matches ? 'auto' : 'smooth' }); return; }
-      const d = pdp.dataset; btn.classList.add('is-added'); const old = btn.textContent; btn.textContent = 'Added';
-      setTimeout(() => { btn.classList.remove('is-added'); btn.textContent = old; }, 1200);
+      const d = pdp.dataset; btn.classList.add('is-added'); const old = btn.innerHTML; btn.textContent = 'Added';
+      setTimeout(() => { btn.classList.remove('is-added'); btn.innerHTML = old; }, 1200);
       add({ h: d.h, t: d.t, p: +d.p, img: d.img, v: [size === 'One size' ? size : 'Size ' + size, d.color].filter(Boolean).join(' · ') }, btn, e, $('.pdp2__cut'));
     };
     main?.addEventListener('click', (e) => doAdd(main, e));
@@ -318,20 +318,9 @@
           .fromTo('.h2o [data-fade]', { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.6, stagger: 0.07, ease: 'power3.out' }, 0.75);
         window.__heroPlay = () => tl.play();
         if (!root.classList.contains('is-loading')) tl.play();
-        gsap.to('.h2o__word', { yPercent: 18, ease: 'none', scrollTrigger: { trigger: h, start: 'top top', end: 'bottom top', scrub: true } });
-        gsap.to(letters, { x: (i) => i * (phone ? 8 : 22), ease: 'none', scrollTrigger: { trigger: h, start: 'top top', end: 'bottom top', scrub: true } });
-        // Scroll depth uses y (px) only: the intro owns yPercent/scale/opacity. Sharing them made this scrub record the
-        // intro's start state (6% lower, 1.05x) and snap back to it on the first scroll (Sindri 4 Nov: "the cutout jumps").
-        gsap.fromTo('.h2o__man, .h2o__base', { y: 0 }, { y: (i, el) => -0.04 * el.offsetHeight, ease: 'none', immediateRender: false, scrollTrigger: { trigger: h, start: 'top top', end: 'bottom top', scrub: true, invalidateOnRefresh: true } });
-        if (fine.matches) {
-          const wx = gsap.quickTo('.h2o__word', 'x', { duration: 0.9, ease: 'power3.out' }), mx = gsap.quickTo('.h2o__man', 'x', { duration: 0.9, ease: 'power3.out' }), bx = gsap.quickTo('.h2o__base', 'x', { duration: 0.9, ease: 'power3.out' });
-          h.addEventListener('pointermove', (e) => { const d = e.clientX / innerWidth - 0.5; wx(-d * 22); mx(d * 30); bx(d * 30); });
-        }
       } else if ($('[data-fade]')) gsap.set('[data-fade]', { opacity: 1 });
 
       /* weight scrubs */
-      $$('[data-weight]').forEach((el) => gsap.fromTo(el, { '--w': +el.dataset.from || 150 }, { '--w': +el.dataset.to || 800, ease: 'none', scrollTrigger: { trigger: el, start: 'top bottom', end: el.dataset.end || 'top 40%', scrub: 0.6 } }));
-      $$('.kids__words span').forEach((w, i) => gsap.fromTo(w, { '--w': 200 }, { '--w': 800, ease: 'none', scrollTrigger: { trigger: '.kids', start: `top+=${i * 12}% 80%`, end: `top+=${i * 12}% 30%`, scrub: 0.6 } }));
 
       /* drop rail: scrolled by hand; names gain weight at the centre; tees settle as the rail arrives */
       const rail = $('.rail');
@@ -344,15 +333,8 @@
       // grids and copy: a longer, softer rise; transforms are cleared afterwards so CSS hover/tilt takes over again
       $$('[data-reveal]').forEach((g) => {
         const items = $$(g.dataset.reveal, g); if (!items.length) return;
-        gsap.fromTo(items, { y: +(g.dataset.y || 40), opacity: 0 }, { y: 0, opacity: 1, duration: 1.05, ease: 'expo.out', stagger: +(g.dataset.stagger || 0.07),
+        gsap.fromTo(items, { y: +(g.dataset.y || 16), opacity: 0 }, { y: 0, opacity: 1, duration: 0.9, ease: 'power3.out', stagger: +(g.dataset.stagger || 0.05),
           clearProps: 'transform,translate,rotate,scale,opacity', scrollTrigger: { trigger: g, start: 'top 86%', once: true } });
-      });
-      // section headings: words rise from behind a mask (text-only headings; accents get headroom so Ó/Á never clip)
-      $$('main h2.h2, .rail__head h2').forEach((h) => {
-        if (h.children.length || !h.textContent.trim()) return;
-        const text = h.textContent.trim(); h.setAttribute('aria-label', text);
-        h.innerHTML = text.split(/\s+/).map((w) => `<span class="w" aria-hidden="true"><span>${w.replace(/&/g, '&amp;').replace(/</g, '&lt;')}</span></span>`).join(' ');
-        gsap.fromTo($$('.w > span', h), { yPercent: 115 }, { yPercent: 0, duration: 1.1, ease: 'expo.out', stagger: 0.05, clearProps: 'transform,translate', scrollTrigger: { trigger: h, start: 'top 88%', once: true } });
       });
       // editorial photos: the frame opens upward while the picture settles from 1.12x
       $$('[data-img-reveal]').forEach((f) => {
