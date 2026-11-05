@@ -559,3 +559,26 @@ html.js-motion .callout__card { opacity: 0; }
 .oath__src { margin-top: clamp(10px, 1.2vw, 16px); gap: 6px; font-size: 9.5px; letter-spacing: .14em; color: rgba(242,239,234,.42); }
 .oath__src .i-arrow { width: 11px; height: 11px; }
 @media (pointer: coarse) { .oath__src { min-height: 44px; } }
+/* the oath, smaller (Sindri 5 Nov: "marquee is too large") */
+.oath { padding: clamp(18px, 2.4vw, 32px) 0 clamp(14px, 1.8vw, 24px); }
+.marq--oath .marq__track span { font-size: clamp(28px, 3.4vw, 60px); }
+.marq--oath .marq__group > i { width: clamp(7px, .6vw, 10px); height: clamp(7px, .6vw, 10px); margin: 0 clamp(14px, 1.8vw, 28px); }
+/* footer signature (Sindri 5 Nov: "Signature reveal", "more signature footer look"): Hafþór's real autograph signs off every page */
+.foot__sign { display: grid; justify-items: start; gap: 10px; margin: clamp(40px, 5vw, 72px) 0 clamp(28px, 3vw, 44px); padding-top: clamp(28px, 3vw, 40px); border-top: 1px solid var(--rule-iron); }
+.sig { display: block; width: clamp(220px, 34vw, 520px); height: auto; color: var(--bone); overflow: visible; }
+.foot__sign .mono { font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; color: rgba(242,239,234,.5); }
+/* hanging tag v5 (Sindri 5 Nov: "make the line pointing to the tee and text a bit better and more minimalistic"):
+   a plumb hairline from the dot to a small thumbnail; name and price as quiet text; "Shop" an underlined word, no box */
+.callout__line path { stroke: rgba(242,239,234,.5); stroke-width: 1; }
+.callout__dot i { left: -4px; top: -4px; width: 8px; height: 8px; box-shadow: 0 0 0 4px rgba(211,39,28,.22); }
+.callout__card { right: auto; gap: 12px; max-width: 280px; align-items: center; }
+.callout__card img { width: 46px; height: 46px; box-shadow: none; }
+.callout__text { gap: 2px; }
+.callout__text .mono { font-size: 9px; letter-spacing: .14em; color: rgba(242,239,234,.5); }
+.callout__text b { font-variation-settings: "wght" 600, "wdth" 87.5; font-size: 13px; line-height: 1.2; }
+.callout__row { gap: 10px; margin-top: 2px; align-items: baseline; }
+.callout__price { font-size: 11px; color: rgba(242,239,234,.75); }
+.callout__btn { min-height: 0; padding: 0; border: 0; background: none; color: var(--bone); font-size: 10px; letter-spacing: .14em; text-decoration: underline; text-decoration-color: rgba(242,239,234,.45); text-underline-offset: 3px; }
+@media (hover: hover) and (pointer: fine) { .callout__card:hover .callout__btn { background: none; color: var(--bone); text-decoration-color: var(--bone); } }
+@media (pointer: coarse) { .callout__btn { min-height: 0; } .callout__card { min-height: 46px; } }
+@media (max-width: 900px) { .callout__card img { width: 40px; height: 40px; } }

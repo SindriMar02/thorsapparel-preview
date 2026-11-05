@@ -327,19 +327,21 @@
   const co = $('[data-callout]');
   let coUntil = 0, coRaf = 0;
   const coLayout = () => {
-    const stg = co.parentElement, man = $('.h2o__man'), card = $('.callout__card', co), dot = $('.callout__dot', co), svg = $('svg', co), path = $('path', svg);
-    const S = stg.getBoundingClientRect(), M = man.getBoundingClientRect(), K = card.getBoundingClientRect();
+    // Hanging tag (Sindri 5 Nov: "make the line pointing to the tee and text a bit better and more minimalistic"): the tag is
+    // placed so its tee thumbnail sits straight below the dot, and one plumb hairline drops from the dot to the thumbnail. If the
+    // tag has to be pushed in from an edge, the line steps across just above the thumbnail.
+    const stg = co.parentElement, man = $('.h2o__man'), card = $('.callout__card', co), img = $('img', card), dot = $('.callout__dot', co), svg = $('svg', co), path = $('path', svg);
+    const S = stg.getBoundingClientRect(), M = man.getBoundingClientRect();
     if (!S.width || !M.width) return;
     const ax = M.left - S.left + M.width * 0.6, ay = M.top - S.top + M.height * 0.425;
     dot.style.transform = `translate(${ax.toFixed(1)}px, ${ay.toFixed(1)}px)`;
     svg.setAttribute('viewBox', `0 0 ${S.width.toFixed(0)} ${S.height.toFixed(0)}`);
-    const kl = K.left - S.left, kt = K.top - S.top, kr = kl + K.width, km = kt + K.height / 2;
-    let d;
-    if (kl > ax + 40) { const ex = Math.max(ax + 8, kl - Math.min(150, (kl - ax) * 0.45)); d = `M${ax.toFixed(1)} ${ay.toFixed(1)}L${ex.toFixed(1)} ${km.toFixed(1)}L${kl.toFixed(1)} ${km.toFixed(1)}`; }
-    else { // card above the dot (desktop): end on its bottom edge; card below (phones): end on its top edge
-      const tx = Math.min(Math.max(ax, kl + 28), kr - 28), ty = kt + K.height < ay ? kt + K.height : kt;
-      d = `M${ax.toFixed(1)} ${ay.toFixed(1)}L${tx.toFixed(1)} ${ty.toFixed(1)}`;
-    }
+    const edge = phoneMQ.matches ? 10 : 24, want = ax - (img.offsetLeft + img.offsetWidth / 2);
+    const left = Math.max(edge, Math.min(want, S.width - card.offsetWidth - edge));
+    card.style.left = `${left.toFixed(1)}px`; card.style.right = 'auto';
+    const I = img.getBoundingClientRect(), cx = I.left - S.left + I.width / 2, top = I.top - S.top - 6;
+    const d = Math.abs(cx - ax) < 1.5 ? `M${ax.toFixed(1)} ${ay.toFixed(1)}V${top.toFixed(1)}`
+      : `M${ax.toFixed(1)} ${ay.toFixed(1)}V${(top - 18).toFixed(1)}H${cx.toFixed(1)}V${top.toFixed(1)}`;
     path.setAttribute('d', d);
   };
   const coTick = (t) => { coLayout(); coRaf = t < coUntil ? requestAnimationFrame(coTick) : 0; };
@@ -404,6 +406,15 @@
         const items = $$(g.dataset.reveal, g); if (!items.length) return;
         gsap.fromTo(items, { y: +(g.dataset.y || 16), opacity: 0 }, { y: 0, opacity: 1, duration: 0.9, ease: 'power3.out', stagger: +(g.dataset.stagger || 0.05),
           clearProps: 'transform,translate,rotate,scale,opacity', scrollTrigger: { trigger: g, start: 'top 86%', once: true } });
+      });
+      // the footer signature writes itself once: each pen stroke's real length (getTotalLength, so no pathLength reliance in
+      // Safari) is hidden, then drawn in writing order at an even pen speed, ~2.4 s for the whole autograph
+      $$('[data-sign]').forEach((svg) => {
+        const pens = $$('.sig__pen path', svg); if (!pens.length) return;
+        const L = pens.map((q) => q.getTotalLength()), total = L.reduce((a, b) => a + b, 0) || 1;
+        pens.forEach((q, i) => { q.style.strokeDasharray = `${L[i]} ${L[i]}`; q.style.strokeDashoffset = L[i]; });
+        const tl = gsap.timeline({ scrollTrigger: { trigger: svg, start: 'top 92%', once: true } });
+        pens.forEach((q, i) => tl.to(q, { strokeDashoffset: 0, duration: Math.max(0.02, 2.4 * L[i] / total), ease: 'none' }, i ? '>-0.005' : 0));
       });
       // editorial photos (home: the record still and the story photo): the frame opens upward once while the picture settles
       // from 1.08x. clip-path never moves the trigger box; transforms are cleared after so the CSS hover push-in takes over.
