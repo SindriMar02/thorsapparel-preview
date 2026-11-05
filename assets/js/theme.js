@@ -226,6 +226,12 @@
     const track = $('.marq__track', m);
     if ('IntersectionObserver' in window) new IntersectionObserver(([en]) => m.toggleAttribute('data-off', !en.isIntersecting), { rootMargin: '100px' }).observe(m);
     const anim = () => track.getAnimations ? track.getAnimations().find((a) => (a.animationName || '').startsWith('ta-marq')) : null;
+    // data-speed = px per second (phones 75 %), so the loop runs at one speed at every width; keeps its place when it retimes
+    if (m.dataset.speed) { const g = $('.marq__group', m);
+      const retime = () => { const w = g.getBoundingClientRect().width; if (!w) return; const a = anim(), p = a ? a.effect.getComputedTiming().progress || 0 : 0;
+        const sec = w / (+m.dataset.speed * (innerWidth < 768 ? 0.75 : 1)); m.style.setProperty('--marq-dur', sec.toFixed(2) + 's');
+        getComputedStyle(track).animationDuration; const b = anim(); if (b) b.currentTime = p * sec * 1000; };
+      retime(); if (document.fonts) document.fonts.ready.then(retime); let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(retime, 150); }, { passive: true }); }
     const seek = (dist) => { const a = anim(); if (!a) return; const len = track.getBoundingClientRect().width / 2; const per = Number(a.effect.getComputedTiming().duration); if (!len || !per) return;
       const rev = m.dataset.dir === 'right'; const t = Number(a.currentTime || 0) + (dist / len) * per * (rev ? 1 : -1); a.currentTime = ((t % per) + per) % per; };
     let d = null, dragged = false;

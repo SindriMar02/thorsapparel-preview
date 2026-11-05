@@ -589,3 +589,12 @@ html.js-motion .callout__card { opacity: 0; }
   .h2o__word { left: 0; right: 0; justify-content: center; }
   .h2o__man, .h2o__base { height: 70%; }
 }
+
+/* the oath v3 (Sindri 5 Nov: "the marquee is a little bit slow", "can look better and be more stylish"): one speed at every
+   width (data-speed, set in theme.js), the lead words as a small spaced mono label tucked against the heavy word, and a
+   small Mjölnir pendant in plate red between the lines, since the oath circles the hammer on the print */
+.marq--oath .marq__track span { display: inline-flex; align-items: flex-start; gap: .55em; padding: 0; }
+.marq--oath .marq__track span small { font-family: var(--mono, ui-monospace, monospace); font-variation-settings: normal; font-size: clamp(9.5px, .78vw, 12px); line-height: 1; letter-spacing: .2em; text-transform: uppercase; color: rgba(242,239,234,.5); padding-top: .55em; }
+.marq--oath .marq__track span b { font-size: clamp(32px, 4vw, 66px); line-height: .9; letter-spacing: -.012em; }
+.marq--oath .marq__group > i { width: auto; height: auto; background: none; transform: none; margin: 0 clamp(22px, 2.8vw, 46px); color: var(--plate); display: flex; align-self: center; }
+.marq--oath .marq__group > i svg { width: clamp(11px, .95vw, 15px); height: auto; fill: currentColor; display: block; }
